@@ -6,5 +6,7 @@ public interface AccionesPersonaje {
 	public void quitarVida(int dmg);
 	public boolean checkBuff();
 	public void checkSurroundings();
+	
+	//hola
 
 }
