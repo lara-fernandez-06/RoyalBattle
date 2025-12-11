@@ -6,11 +6,13 @@ import java.util.Scanner;
 public class Partida {
 	//Atributos
 	private ArrayList<Personaje> jugadores;
-	private ArrayList<ArrayList<Personaje>> tablero;
+	//private ArrayList<ArrayList<Personaje>> tablero;
+	Tablero tablero = new Tablero(jugadores);
 	
 	public Partida() {
 		jugadores = new ArrayList<Personaje>();
-		tablero = new ArrayList<ArrayList<Personaje>>();
+		//tablero = new ArrayList<ArrayList<Personaje>>();
+		
 	}
 	
 	public void jugarPartida() {

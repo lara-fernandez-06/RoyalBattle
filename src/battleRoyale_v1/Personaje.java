@@ -13,6 +13,8 @@ public abstract class Personaje implements AccionesPersonaje {
 	private boolean buff;
 	private static int counter;
 	
+	private int[][] posicion;
+	
 	//Falta gestionar el buff
 	//Constructor
 	public Personaje(Rol rol, String nombre, int vida, int pasos, int vision, Arma arma) {
@@ -25,6 +27,7 @@ public abstract class Personaje implements AccionesPersonaje {
 		this.arma = arma;
 		counter++;
 	}
+	
 	
 	//Métodos sin definir
 	public void atacar() {
@@ -47,5 +50,11 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 	}
 	
+	public void setPosicion(int[][] posicion) {
+		this.posicion = posicion;
+	}
 	
+	public int[][] getPosicion() {
+		return this.posicion;
+	}
 }
