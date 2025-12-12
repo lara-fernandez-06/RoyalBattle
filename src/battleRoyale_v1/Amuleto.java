@@ -9,8 +9,7 @@ public class Amuleto extends Loot {
 
 	@Override
 	public void aplicar(Personaje p) {
-		// TODO Auto-generated method stub
-		//TODO
+	    p.getArma().setRango(p.getArma().getRango() + 1); //+1 en rango
 	}
 
 }

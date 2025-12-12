@@ -170,31 +170,27 @@ public abstract class Personaje implements AccionesPersonaje {
 	public String toString() {
 		return "Nombre: " + this.nombre + " Rol: " + this.rol.toString() + " Arma: " + this.arma.toString();
 	}
+	
 	//Getters y Setters
 	public int getVida() {
 		return vida;
 	}
 
-
 	public void setVida(int vida) {
 		this.vida = vida;
 	}
-
 
 	public int getPasos() {
 		return pasos;
 	}
 
-
 	public void setPasos(int pasos) {
 		this.pasos = pasos;
 	}
 
-
 	public int getVision() {
 		return vision;
 	}
-
 
 	public void setVision(int vision) {
 		this.vision = vision;
@@ -207,5 +203,13 @@ public abstract class Personaje implements AccionesPersonaje {
 	
 	public int[] getPosicion() {
 		return this.posicion;
+	}
+
+	public Arma getArma() {
+		return arma;
+	}
+
+	public void setArma(Arma arma) {
+		this.arma = arma;
 	}
 }

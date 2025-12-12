@@ -29,4 +29,17 @@ public abstract class Arma {
 	public int getDmg() {
 		return dmg;
 	}
+	
+	public void setDmg(int dmg) {
+		this.dmg = dmg;
+	}
+	
+	public int getRango() {
+		return rango;
+	}
+
+	public void setRango(int rango) {
+		this.rango = rango;
+	}
+	
 }

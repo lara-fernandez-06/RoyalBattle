@@ -8,9 +8,9 @@ public class Yunke extends Loot {
 	}
 
 	@Override
-    public void aplicar(Personaje p) {
-       //TODO
-    }
+	public void aplicar(Personaje p) {
+	    p.getArma().setDmg(p.getArma().getDmg() + 5); //+5 de daño
+	}
 
 }
 
