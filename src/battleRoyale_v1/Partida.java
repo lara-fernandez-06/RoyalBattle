@@ -1,5 +1,6 @@
 package battleRoyale_v1;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,7 +8,8 @@ public class Partida {
 	//Atributos
 	private ArrayList<Personaje> jugadores;
 	//private ArrayList<ArrayList<Personaje>> tablero;
-	Tablero tablero = new Tablero(jugadores);
+	//Tablero tablero = new Tablero(jugadores);
+	String nombreFichero = new String("datosOrigen.txt");
 	
 	public Partida() {
 		jugadores = new ArrayList<Personaje>();
@@ -16,8 +18,9 @@ public class Partida {
 	}
 	
 	public void jugarPartida() {
+		//Añadimos a jugadores el personaje creado por el usuario
 		jugadores.add(crearPersonajeUsuario());
-		System.out.println(jugadores.getFirst().toString());
+		leerFicheroPartida(nombreFichero);
 	}
 	
 	
@@ -79,5 +82,69 @@ public class Partida {
 		}while(error == true);
 		
 		return null;
+	}
+	
+	private void leerFicheroPartida(String nombreFichero) {
+		//definimos las variables
+		File f;
+		Scanner s;
+		
+		try {
+			//Incializamos las variables
+			f = new File(nombreFichero);
+			s = new Scanner(f);
+			
+			//Leemos línea y separamos por demilitadores
+			while(s.hasNextLine()) {
+				Scanner sl = new Scanner(s.nextLine());
+				sl.useDelimiter(";");
+				String nuevoPersonaje = sl.next();
+				String arma = sl.next();
+				String nombre = sl.next();
+				
+				try {
+					if(nuevoPersonaje.equalsIgnoreCase("Caballero")) {
+						this.jugadores.add(new Caballero(nombre, crearArma(arma)));
+					}else if(nuevoPersonaje.equalsIgnoreCase("Ogro")) {
+						this.jugadores.add(new Ogro(nombre, crearArma(arma)));
+					}else if(nuevoPersonaje.equalsIgnoreCase("Elfo")) {
+						this.jugadores.add(new Elfo(nombre, crearArma(arma)));
+					}else if(nuevoPersonaje.equalsIgnoreCase("Mago")) {
+						this.jugadores.add(new Mago(nombre, crearArma(arma)));
+					}else if(nuevoPersonaje.equalsIgnoreCase("Ladrón")) {
+						this.jugadores.add(new Ladron(nombre, crearArma(arma)));
+					}else {
+						throw new PersonajeNotExistException();
+					}
+				}catch(ArmaNotExistException armaE) {
+					System.out.println(armaE.getMessage());
+				}catch(PersonajeNotExistException personajeE) {
+					System.out.println(personajeE.getMessage());
+				}finally {
+					sl.close();
+				}
+			}
+			
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}finally {
+			
+		}
+	}
+	
+	private Arma crearArma(String nombreArma) throws ArmaNotExistException{
+		if(nombreArma.equalsIgnoreCase("Espada")) {
+			return new Espada();
+		}else if(nombreArma.equalsIgnoreCase("Maza")) {
+			return new Maza();
+		}else if(nombreArma.equalsIgnoreCase("Arco")) {
+			return new Arco();
+		}else if(nombreArma.equalsIgnoreCase("Báculo")) {
+			return new Baculo();
+		}else if(nombreArma.equalsIgnoreCase("Daga")) {
+			return new Daga();
+		}else {
+			throw new ArmaNotExistException();
+		}
 	}
 }
