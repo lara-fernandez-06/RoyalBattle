@@ -21,6 +21,7 @@ public class Partida {
 		//Añadimos a jugadores el personaje creado por el usuario
 		jugadores.add(crearPersonajeUsuario());
 		leerFicheroPartida(nombreFichero);
+		System.out.println(jugadores.toString());
 	}
 	
 	
@@ -88,34 +89,22 @@ public class Partida {
 		//definimos las variables
 		File f;
 		Scanner s;
+		final int TAM_MAX = 25;
 		
 		try {
 			//Incializamos las variables
 			f = new File(nombreFichero);
 			s = new Scanner(f);
+			int counter = 0;
 			
 			//Leemos línea y separamos por demilitadores
-			while(s.hasNextLine()) {
+			while(s.hasNextLine() && counter < TAM_MAX) {
 				Scanner sl = new Scanner(s.nextLine());
 				sl.useDelimiter(";");
-				String nuevoPersonaje = sl.next();
-				String arma = sl.next();
-				String nombre = sl.next();
 				
 				try {
-					if(nuevoPersonaje.equalsIgnoreCase("Caballero")) {
-						this.jugadores.add(new Caballero(nombre, crearArma(arma)));
-					}else if(nuevoPersonaje.equalsIgnoreCase("Ogro")) {
-						this.jugadores.add(new Ogro(nombre, crearArma(arma)));
-					}else if(nuevoPersonaje.equalsIgnoreCase("Elfo")) {
-						this.jugadores.add(new Elfo(nombre, crearArma(arma)));
-					}else if(nuevoPersonaje.equalsIgnoreCase("Mago")) {
-						this.jugadores.add(new Mago(nombre, crearArma(arma)));
-					}else if(nuevoPersonaje.equalsIgnoreCase("Ladrón")) {
-						this.jugadores.add(new Ladron(nombre, crearArma(arma)));
-					}else {
-						throw new PersonajeNotExistException();
-					}
+					crearPersonaje(sl.next(), sl.next(), sl.next());
+					counter++;
 				}catch(ArmaNotExistException armaE) {
 					System.out.println(armaE.getMessage());
 				}catch(PersonajeNotExistException personajeE) {
@@ -124,11 +113,52 @@ public class Partida {
 					sl.close();
 				}
 			}
-			
+			s.close();
 		}catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}finally {
-			
+			try {
+				//definimos las variables
+				String[] tiposPersonaje = {"Caballero", "Ogro", "Elfo", "Mago", "Ladrón"};
+				String[] tiposArma = {"Espada", "Maza", "Arco", "Báculo", "Daga"};
+				
+				FileWriter fichero = new FileWriter(nombreFichero);
+				PrintWriter pw = new PrintWriter(fichero);
+				
+				for(int i = 0; i < tiposPersonaje.length; i++) {
+					for(int j = 0; j < tiposArma.length; j++) {
+						pw.println(tiposPersonaje[i] + ";" + tiposArma[j] + ";" + tiposPersonaje[i] + (j + 1));
+					}
+				}
+				
+				//Cerramos el stream
+				pw.close();
+				fichero.close();
+				
+				//Leemos el fichero
+				//Incializamos las variables
+				f = new File(nombreFichero);
+				s = new Scanner(f);
+				int counter = 0;
+				
+				//Leemos línea y separamos por demilitadores
+				while(s.hasNextLine() && counter < TAM_MAX) {
+					Scanner sl = new Scanner(s.nextLine());
+					sl.useDelimiter(";");
+					
+					try {
+						crearPersonaje(sl.next(), sl.next(), sl.next());
+						counter++;
+					}catch(ArmaNotExistException armaE) {
+						System.out.println(armaE.getMessage());
+					}catch(PersonajeNotExistException personajeE) {
+						System.out.println(personajeE.getMessage());
+					}finally {
+						sl.close();
+					}
+				}
+				s.close();
+			}catch(IOException ioE) {
+				ioE.printStackTrace();
+			}
 		}
 	}
 	
@@ -145,6 +175,22 @@ public class Partida {
 			return new Daga();
 		}else {
 			throw new ArmaNotExistException();
+		}
+	}
+	
+	private void crearPersonaje(String nuevoPersonaje, String arma, String nombre) throws PersonajeNotExistException, ArmaNotExistException{
+		if(nuevoPersonaje.equalsIgnoreCase("Caballero")) {
+			this.jugadores.add(new Caballero(nombre, crearArma(arma)));
+		}else if(nuevoPersonaje.equalsIgnoreCase("Ogro")) {
+			this.jugadores.add(new Ogro(nombre, crearArma(arma)));
+		}else if(nuevoPersonaje.equalsIgnoreCase("Elfo")) {
+			this.jugadores.add(new Elfo(nombre, crearArma(arma)));
+		}else if(nuevoPersonaje.equalsIgnoreCase("Mago")) {
+			this.jugadores.add(new Mago(nombre, crearArma(arma)));
+		}else if(nuevoPersonaje.equalsIgnoreCase("Ladrón")) {
+			this.jugadores.add(new Ladron(nombre, crearArma(arma)));
+		}else {
+			throw new PersonajeNotExistException();
 		}
 	}
 }

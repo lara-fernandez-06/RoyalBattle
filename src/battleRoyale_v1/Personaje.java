@@ -6,9 +6,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	private int id;
 	private Rol rol;
 	private String nombre;
-	private int vidaMax; //!!!!!!!AÑADO VIDA ACTUAL Y VIDA MAX, PERO NO LO AÑADO EN EL CONSTRCUTOR PORQUE NO ESTOT SEGURA DE COMO ESTÁ PENSADO PARA LAS SUBCLASES
-						//QUE OPINE ALONSO QUE HA HECHO EL CONSTRUCTOR
-	private int vidaActual;
+	private int vida;
 	private int pasos;
 	private int vision;
 	private Arma arma;
@@ -25,7 +23,7 @@ public abstract class Personaje implements AccionesPersonaje {
 		this.id = counter;
 		this.rol = rol;
 		this.nombre = nombre;
-		this.vidaMax = vida;
+		this.vida = vida;
 		this.pasos = pasos;
 		this.vision = vision;
 		this.arma = arma;
