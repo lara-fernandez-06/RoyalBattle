@@ -16,6 +16,8 @@ public abstract class Personaje implements AccionesPersonaje {
 	//al final vamos a hacer el roll for attack??
 	
 	private int[] posicion; //cambio de la matriz de ints a un array que va a ser de dos, el [0] para la x y el [1] para la y
+	//Lara los getters y setters te los he `puesto abajo con el resto
+	
 	
 	//Falta gestionar el buff
 	//Constructor
@@ -51,15 +53,6 @@ public abstract class Personaje implements AccionesPersonaje {
 
 	public boolean checkBuff() {
 		return rol.getId() == arma.id;
-	}
-	
-	public void setPosicion(int posicionX, int posicionY) {
-		this.posicion[0] = posicionX;
-		this.posicion[1] = posicionY;
-	}
-	
-	public int[] getPosicion() {
-		return this.posicion;
 	}
 	
 	//Aqui he cambiado la lógica para que devuelva casillas en vez de booleanos
@@ -172,7 +165,12 @@ public abstract class Personaje implements AccionesPersonaje {
 		}
 	}
 	
-	
+	//toString
+	@Override
+	public String toString() {
+		return "Nombre: " + this.nombre + " Rol: " + this.rol.toString() + " Arma: " + this.arma.toString();
+	}
+	//Getters y Setters
 	public int getVida() {
 		return vida;
 	}
@@ -200,5 +198,14 @@ public abstract class Personaje implements AccionesPersonaje {
 
 	public void setVision(int vision) {
 		this.vision = vision;
+	}
+	
+	public void setPosicion(int posicionX, int posicionY) {
+		this.posicion[0] = posicionX;
+		this.posicion[1] = posicionY;
+	}
+	
+	public int[] getPosicion() {
+		return this.posicion;
 	}
 }

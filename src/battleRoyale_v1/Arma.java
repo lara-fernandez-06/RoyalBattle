@@ -19,6 +19,13 @@ public abstract class Arma {
 		this.id = tipoArma.getId();
 	}
 	
+	//toString
+	@Override
+	public String toString() {
+		return this.tipoArma.toString();
+	}
+	
+	//Getters y Setters
 	public int getDmg() {
 		return dmg;
 	}
