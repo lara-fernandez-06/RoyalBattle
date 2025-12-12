@@ -46,7 +46,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 
 	public void quitarVida(int dmg) {
-		vidaActual -= dmg;
+		this.vida -= dmg;
 	}
 
 	public boolean checkBuff() {
@@ -170,5 +170,35 @@ public abstract class Personaje implements AccionesPersonaje {
 					this.posicion[0]-= diferencia[0];
 			}
 		}
+	}
+	
+	
+	public int getVida() {
+		return vida;
+	}
+
+
+	public void setVida(int vida) {
+		this.vida = vida;
+	}
+
+
+	public int getPasos() {
+		return pasos;
+	}
+
+
+	public void setPasos(int pasos) {
+		this.pasos = pasos;
+	}
+
+
+	public int getVision() {
+		return vision;
+	}
+
+
+	public void setVision(int vision) {
+		this.vision = vision;
 	}
 }

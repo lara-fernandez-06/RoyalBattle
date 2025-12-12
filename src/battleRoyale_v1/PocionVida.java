@@ -9,6 +9,6 @@ public class PocionVida extends Loot {
 
 	@Override
     public void aplicar(Personaje p) {
-       // p.setVidaActual(Math.min(p.getVidaMax(), p.getVidaActual() + cantidad));
+       p.setVida(p.getVida() + 15); //aumenta la vida en 15
     }
 }

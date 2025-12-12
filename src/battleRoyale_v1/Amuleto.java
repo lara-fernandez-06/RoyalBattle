@@ -10,7 +10,7 @@ public class Amuleto extends Loot {
 	@Override
 	public void aplicar(Personaje p) {
 		// TODO Auto-generated method stub
-		
+		//TODO
 	}
 
 }

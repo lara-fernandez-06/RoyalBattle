@@ -8,9 +8,8 @@ public class Botas extends Loot {
 	}
 
 	@Override
-	public void aplicar(Personaje p) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void aplicar(Personaje p) {
+       p.setPasos(p.getPasos() + 15); //aumenta los pasos en 15
+    }
 
 }

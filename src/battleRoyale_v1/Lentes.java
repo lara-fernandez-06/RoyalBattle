@@ -8,9 +8,8 @@ public class Lentes extends Loot {
 	}
 
 	@Override
-	public void aplicar(Personaje p) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void aplicar(Personaje p) {
+       p.setVision(p.getVision() + 15); //aumenta la vision en 15
+    }
 
 }
