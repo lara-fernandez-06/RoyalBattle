@@ -11,7 +11,7 @@ public abstract class Arma {
 	public int id;
 	
 	//Constructor
-	public Arma(TipoArma tipoArma, int dmg, int rango, int id) {
+	public Arma(TipoArma tipoArma, int dmg, int rango) {
 		this.tipoArma = tipoArma;
 		this.dmg = dmg;
 		this.rango = rango;

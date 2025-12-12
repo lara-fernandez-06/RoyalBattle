@@ -138,5 +138,39 @@ public abstract class Personaje implements AccionesPersonaje {
 		//creo que podría dar problemas si los dos se tienen de objetivos entre sí (si son dos personajes, si uno es loot da igual)
 		//si no lo que se podría hacer es que calcule si está a más casillas de la x o de la y y que se mueva para cerrar la distancia más grande
 		//TODO: logica de movimiento
+		
+		
+		int[] objetivoPosicion; //Una variable donde guardaremos la posicion del objetivo
+		int[] diferencia = new int[2]; //Array donde guardamos la diferencia entre personaje y objetivo
+		objetivoPosicion = objetivo.getPosicion();
+		
+		//Separamos las coordenadas
+		diferencia[0] = objetivoPosicion[0]-this.posicion[0];
+		diferencia[1] = objetivoPosicion[1]-this.posicion[1];
+		
+		for(int i=0; i<this.pasos; i++) {
+			if(diferencia[0]>diferencia[1]) {
+				if(diferencia[0]>0)
+					i+=diferencia[0];
+					this.posicion[0]+= diferencia[0];
+				if(diferencia[0]<0)
+					i-=diferencia[0];
+					this.posicion[0]-= diferencia[0];
+			}else if(diferencia[0]>diferencia[1]){
+				if(diferencia[1]>0)
+					i+=diferencia[1];
+					this.posicion[1]+= diferencia[1];
+				if(diferencia[1]<0)
+					i-=diferencia[1];
+					this.posicion[1]-= diferencia[1];
+			}else {
+				if(diferencia[0]>0)
+					i+=diferencia[0];
+					this.posicion[0]+= diferencia[0];
+				if(diferencia[0]<0)
+					i-=diferencia[0];
+					this.posicion[0]-= diferencia[0];
+			}
+		}
 	}
 }
