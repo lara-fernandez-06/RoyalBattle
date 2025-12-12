@@ -8,12 +8,18 @@ public abstract class Arma {
 	//private int checkingCOSITAS;
 	private int rango;
 	private int attackChance;
+	public int id;
 	
 	//Constructor
-	public Arma(TipoArma tipoArma, int dmg, int rango) {
+	public Arma(TipoArma tipoArma, int dmg, int rango, int id) {
 		this.tipoArma = tipoArma;
 		this.dmg = dmg;
 		this.rango = rango;
 		this.attackChance = 0;
+		this.id = tipoArma.getId();
+	}
+	
+	public int getDmg() {
+		return dmg;
 	}
 }

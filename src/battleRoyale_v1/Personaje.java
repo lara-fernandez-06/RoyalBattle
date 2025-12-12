@@ -34,21 +34,25 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 	
 	
-	//Métodos sin definir
-	public void atacar() {
+	public void atacar(Personaje enemigo) { //TODO: NO SE SI ESTO ES CORRECTO PORQUE LUEGO EN TODOS LOS
+											//PEQUEÑOS PERSONAJES ME HACE PONER LOS MÉTODOS
 		// TODO Auto-generated method stub
-		
-		//aqui llamar a checkBuff
+
+		if(checkBuff() == true) {
+			int buffedDmg = arma.getDmg() * 2;
+			enemigo.quitarVida(buffedDmg);
+		} else {
+			enemigo.quitarVida(arma.getDmg());
+		}
 		
 	}
 
 	public void quitarVida(int dmg) {
-		
+		vidaActual -= dmg;
 	}
 
 	public boolean checkBuff() {
-		// TODO Auto-generated method stub
-		return false;
+		return rol.getId() == arma.id;
 	}
 	
 	public void setPosicion(int posicionX, int posicionY) {
