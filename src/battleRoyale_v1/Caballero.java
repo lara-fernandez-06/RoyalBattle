@@ -6,6 +6,7 @@ public class Caballero extends Personaje {
 	public Caballero(String nombre, Arma arma) {
 		super(Rol.CABALLERO, nombre, 20, 2, 2, arma);
 	}
+
 	
 	
 }
