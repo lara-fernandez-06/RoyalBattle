@@ -4,39 +4,27 @@ public class Casilla {
 
 	private boolean isDestroyed;
 	private boolean isOccupied;
+	private boolean hasLoot;
 	
-	private Personaje jugador;
+	private Personaje personaje;
+	//private Loot loot; //TEMPORAL!!!!! es que no hay clase hecha y no lo hemos hablado como para hacerla yo
+					   //en esta deberían entrar armas también, asi que a lo mejor habría que hacer una genérica
 	
-	public Casilla() {
-		
+	private int[] posicion; //para tener guardada la posicion en el tablero
+	
+	public Casilla(int x, int y) {
+		this.isDestroyed=false;
+		this.isOccupied=false;
+		this.hasLoot=false;
+		this.personaje=null; //empezamos sin jugadores en las casillas 
+		//this.loot=null;
+		this.posicion = new int[2];
+		this.posicion[0]=x;
+		this.posicion[1]=y;
 	}
 	
 	
-	//CheckSurroundings y sus funciones, no sé si van aquí o en el personaje
-	public void checkSurroundings() {
-		// TODO Auto-generated method stub
-		final boolean enemyDetected;
-		final boolean lootDetected;
-		enemyDetected = checkEnemies();
-		if(enemyDetected == false) {
-			lootDetected = checkLoot();
-			if(lootDetected == true) {
-				//TODO Mover hacia el loot
-			}else {
-				//TODO Mover hacia el centro
-			}
-		}else {
-			//TODO Comprobar si el rango del arma es suficiente como para darle al enemigo, si no lo es, sse mueve hacia el
-		}
-	}
-	public boolean checkEnemies() {
-		/*Si encuentra enemigos devuelve true, si encuentra multiples que vaya a por el que más cerca está, si hay multiples en una distancia igual, que vaya a por el que menos vida tenga, 
-		y si tienen la misma vida pues que elija al azar
-		Si no false*/
-	}
-	public boolean checkLoot() {
-		
-	}
+
 	
 	
 	
@@ -48,7 +36,15 @@ public class Casilla {
 		return this.isOccupied;
 	}
 	
-	public void setJugador(Personaje jugador) {
-		this.jugador = jugador;
+	public boolean getIsDestroyed() {
+		return this.isDestroyed;
+	}
+	
+	public boolean getHasLoot() {
+		return this.hasLoot;
+	}
+	
+	public void setJugador(Personaje personaje) {
+		this.personaje = personaje;
 	}
 }
