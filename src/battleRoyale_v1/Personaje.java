@@ -11,6 +11,8 @@ public abstract class Personaje implements AccionesPersonaje {
 	private int vision;
 	private Arma arma;
 	private boolean buff;
+	private int[] posicionEnemiga;
+	private boolean heSidoAtacado;
 	private static int counter;
 	
 	//al final vamos a hacer el roll for attack??
@@ -31,6 +33,8 @@ public abstract class Personaje implements AccionesPersonaje {
 		this.arma = arma;
 		this.buff = checkBuff();
 		this.posicion =  new int[2]; //inicializamos el array para que solo tenga 2 elementos
+		this.posicionEnemiga = new int[2];
+		this.heSidoAtacado = false;
 		counter++;
 	}
 	
@@ -42,6 +46,13 @@ public abstract class Personaje implements AccionesPersonaje {
 			enemigo.quitarVida(arma.getDmg() * 2);
 		} else {
 			enemigo.quitarVida(arma.getDmg());
+		}
+		
+		//Comprobación si mi enemigo ha muerto
+		if(this.heSidoAtacado == true) {
+			if(enemigo.getVida() <= 0) {
+				this.heSidoAtacado = false; //El enemigo ha muerto
+			}
 		}
 	}
 
@@ -59,33 +70,42 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		Casilla objetivo; //Sea enemigo o loot
 		
-		if((objetivo = checkEnemies(tablero)) == null) {
-			if((objetivo = checkLoot(tablero)) == null) {
-				//TODO Mover hacia el centro
+		if(this.heSidoAtacado == false) {
+			if((objetivo = checkEnemies(tablero)) == null) {
+				if((objetivo = checkLoot(tablero)) == null) {
+					//TODO Mover hacia el centro
+				}else {
+					//TODO Mover hacia el loot
+					moverLoot(objetivo, tablero);
+					if(this.posicion == objetivo.getPosicion()) {
+						//método para ejecutar el buff
+						objetivo.setLoot(null);
+					}
+				}
 			}else {
-				//TODO Mover hacia el loot
-				moverLoot(objetivo, tablero);
-				if(this.posicion == objetivo.getPosicion()) {
-					//método para ejecutar el buff
-					objetivo.setLoot(null);
+				
+				this.moverEnemigo(objetivo, tablero);
+				if(this.checkGolpear(tablero)) {
+					this.atacar(objetivo.getPersonaje());
+					objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
 				}
 			}
 		}else {
-			
+			objetivo = tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]];
 			this.moverEnemigo(objetivo, tablero);
 			if(this.checkGolpear(tablero)) {
 				this.atacar(objetivo.getPersonaje());
-				
 			}
-			
-			//TODO Comprobar si el rango del arma es suficiente como para darle al enemigo, si no lo es, sse mueve hacia el
-			//para esto tenemos que encontrar una forma de calcular la distancia entre casillas
-			//hay que pensar que pasa si están situados el L, como un caballo de ajedrez:
-			/* [x][ ][ ]
-			 * [ ][ ][ ]  -> esto cuantas casillas son?? podriamos decir q son 2 porque está en el segundo "anillo"
-			 * [ ][x][ ]
-			 */
 		}
+		
+		
+		//TODO Comprobar si el rango del arma es suficiente como para darle al enemigo, si no lo es, sse mueve hacia el
+		//para esto tenemos que encontrar una forma de calcular la distancia entre casillas
+		//hay que pensar que pasa si están situados el L, como un caballo de ajedrez:
+		/* [x][ ][ ]
+		 * [ ][ ][ ]  -> esto cuantas casillas son?? podriamos decir q son 2 porque está en el segundo "anillo"
+		 * [ ][x][ ]
+		 */
 	}
 	
 	//deberiamos devolver donde está el enemigo para que se pueda mover hacia el, deberiamos devolver la casilla entera??
