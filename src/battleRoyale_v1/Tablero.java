@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Tablero {
 
-	private int ladoTablero;
+	private final int ladoTablero; //Ponemos esto en mayúculas porque es una constantte??? LARA, CECILIA, ADRIANA, CARLOS
 	private ArrayList<Personaje> jugadores; //para que tenemos el arrayList de jugadores aqui? 
 	Casilla[][] casillas;
 	
 	public Tablero(ArrayList<Personaje> jugadores) {
 		this.jugadores = jugadores;
-		this.ladoTablero = 25; //de momento es el valor default, luego si eso hacemos que se pueda elegir
+		this.ladoTablero = 11; //de momento es el valor default, luego si eso hacemos que se pueda elegir
 		this.casillas = new Casilla[this.ladoTablero][this.ladoTablero];
 		for(int i=0; i<this.ladoTablero; i++) {
 			for(int j=0; j<this.ladoTablero; j++) {

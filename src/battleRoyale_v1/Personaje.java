@@ -66,19 +66,18 @@ public abstract class Personaje implements AccionesPersonaje {
 	
 	//Aqui he cambiado la lógica para que devuelva casillas en vez de booleanos
 	public void checkSurroundings(Tablero tablero) {
-		// TODO Auto-generated method stub
 		
 		Casilla objetivo; //Sea enemigo o loot
 		
 		if(this.heSidoAtacado == false) {
 			if((objetivo = checkEnemies(tablero)) == null) {
 				if((objetivo = checkLoot(tablero)) == null) {
-					//TODO Mover hacia el centro
+					objetivo = tablero.casillas[5][5];
+					this.moverLoot(objetivo, tablero);
 				}else {
-					//TODO Mover hacia el loot
 					moverLoot(objetivo, tablero);
 					if(this.posicion == objetivo.getPosicion()) {
-						//método para ejecutar el buff
+						//TODO método para ejecutar el buff
 						objetivo.setLoot(null);
 					}
 				}
