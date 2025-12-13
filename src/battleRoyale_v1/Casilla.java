@@ -24,14 +24,7 @@ public class Casilla {
 	}
 	
 	
-
-	
-	
-	
-	public void setIsOccupied(boolean isOccupied) {
-		this.isOccupied = isOccupied;
-	}
-	
+	//getters
 	public boolean getIsOccupied() {
 		return this.isOccupied;
 	}
@@ -44,7 +37,16 @@ public class Casilla {
 		return this.hasLoot;
 	}
 	
+	public int[] getPosicion() {
+		return this.posicion;
+	}
+	
+	//setters
 	public void setJugador(Personaje personaje) {
 		this.personaje = personaje;
+	}
+	
+	public void setIsOccupied(boolean isOccupied) {
+		this.isOccupied = isOccupied;
 	}
 }
