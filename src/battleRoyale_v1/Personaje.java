@@ -29,22 +29,21 @@ public abstract class Personaje implements AccionesPersonaje {
 		this.pasos = pasos;
 		this.vision = vision;
 		this.arma = arma;
-		counter++;
+		this.buff = checkBuff();
 		this.posicion =  new int[2]; //inicializamos el array para que solo tenga 2 elementos
+		
+		counter++;
 	}
 	
 	
-	public void atacar(Personaje enemigo) { //TODO: NO SE SI ESTO ES CORRECTO PORQUE LUEGO EN TODOS LOS
-											//PEQUEÑOS PERSONAJES ME HACE PONER LOS MÉTODOS
-		// TODO Auto-generated method stub
-
-		if(checkBuff() == true) {
-			int buffedDmg = arma.getDmg() * 2;
-			enemigo.quitarVida(buffedDmg);
+	public void atacar(Personaje enemigo) {
+		//TODO: NO SE SI ESTO ES CORRECTO PORQUE LUEGO EN TODOS LOS
+		//PEQUEÑOS PERSONAJES ME HACE PONER LOS MÉTODOS
+		if(this.buff == true) {
+			enemigo.quitarVida(arma.getDmg() * 2);
 		} else {
 			enemigo.quitarVida(arma.getDmg());
 		}
-		
 	}
 
 	public void quitarVida(int dmg) {
@@ -169,6 +168,18 @@ public abstract class Personaje implements AccionesPersonaje {
 	@Override
 	public String toString() {
 		return "Nombre: " + this.nombre + " Rol: " + this.rol.toString() + " Arma: " + this.arma.toString();
+	}
+	
+	public String toStringWithStats() {
+		return this.toString() + " Vida: " + this.vida + " Vision: " + this.vision + " Pasos: " + this.pasos + " Ataque: " + this.arma.getDmg() +" Rango de ataque: " + this.arma.getRango() + " Buff: " + toStringBuff();
+	}
+	
+	private String toStringBuff() {
+		if(buff == true) {
+			return "Sí";
+		}else {
+			return "No";
+		}
 	}
 	
 	//Getters y Setters
