@@ -88,6 +88,7 @@ public abstract class Personaje implements AccionesPersonaje {
 				if(this.checkGolpear(tablero)) {
 					this.atacar(objetivo.getPersonaje());
 					objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
+					objetivo.getPersonaje().heSidoAtacado = true;
 				}
 			}
 		}else {
