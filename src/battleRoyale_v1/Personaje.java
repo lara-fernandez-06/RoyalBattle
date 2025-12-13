@@ -67,6 +67,8 @@ public abstract class Personaje implements AccionesPersonaje {
 				//TODO Mover hacia el centro
 			}else {
 				//TODO Mover hacia el loot
+				mover(objetivo, tablero);
+				//TODO: cogerLoot();
 			}
 		}else {
 			//TODO Comprobar si el rango del arma es suficiente como para darle al enemigo, si no lo es, sse mueve hacia el
@@ -95,7 +97,7 @@ public abstract class Personaje implements AccionesPersonaje {
 			for(j=Math.max(posicion[1]-this.vision, 0); j<=Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
-					if(tablero.casillas[i][j].getIsOccupied() == true) return tablero.casillas[i][j]; //si la casilla está ocupada, la devuelve
+					if(tablero.casillas[i][j].getPersonaje() != null) return tablero.casillas[i][j]; //si la casilla está ocupada, la devuelve
 				}
 				
 			}
@@ -112,7 +114,7 @@ public abstract class Personaje implements AccionesPersonaje {
 			for(j=Math.max(posicion[1]-this.vision, 0); j<=Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
-					if(tablero.casillas[i][j].getHasLoot() == true) return tablero.casillas[i][j]; //si la casilla tiene loot, la devuelve
+					if(tablero.casillas[i][j].getLoot() != null) return tablero.casillas[i][j]; //si la casilla tiene loot, la devuelve
 				}
 				
 			}
@@ -123,7 +125,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 	
 	//hay que pensar que le vamos a pasar en el caso que se mueva al centro
-	public void mover(Casilla objetivo) {
+	public void mover(Casilla objetivo, Tablero tablero) {
 		//lo más fácil sería hacer que se mueva en el eje x hasta que coincida con la x del objetivo, y luego se mueva en la y
 		//creo que podría dar problemas si los dos se tienen de objetivos entre sí (si son dos personajes, si uno es loot da igual)
 		//si no lo que se podría hacer es que calcule si está a más casillas de la x o de la y y que se mueva para cerrar la distancia más grande
@@ -134,34 +136,51 @@ public abstract class Personaje implements AccionesPersonaje {
 		int[] diferencia = new int[2]; //Array donde guardamos la diferencia entre personaje y objetivo
 		objetivoPosicion = objetivo.getPosicion();
 		
-		//Separamos las coordenadas
-		diferencia[0] = objetivoPosicion[0]-this.posicion[0];
-		diferencia[1] = objetivoPosicion[1]-this.posicion[1];
+		//eliminar el personaje de la casilla en el que empieza
+		//tablero.casillas[this.posicion[0]][this.posicion[1]].setIsOccupied(false);
+		tablero.casillas[this.posicion[0]][this.posicion[1]].setJugador(null);
 		
 		for(int i=0; i<this.pasos; i++) {
-			if(diferencia[0]>diferencia[1]) {
+			
+			diferencia[0] = objetivoPosicion[0]-this.posicion[0];
+			diferencia[1] = objetivoPosicion[1]-this.posicion[1];
+			
+			//las comparaciones están en absoluto para que no influya el signo
+			//si está mas lejos en la x que en la y -> se mueve en x
+			if(Math.abs(diferencia[0])>Math.abs(diferencia[1])) {
+				//mira el signo de diferencia y me mueve hacia la derecha o izquierda
 				if(diferencia[0]>0)
-					i+=diferencia[0];
-					this.posicion[0]+= diferencia[0];
+					this.posicion[0]+= 1;
 				if(diferencia[0]<0)
-					i-=diferencia[0];
-					this.posicion[0]-= diferencia[0];
-			}else if(diferencia[0]>diferencia[1]){
+					this.posicion[0]-= 1;
+				
+			//si está mas lejos en la y que en la x -> se mueve en y
+			}else if(Math.abs(diferencia[1])>Math.abs(diferencia[0])){
+				//mira el signo de diferencia y se mueve arriba o abajo
 				if(diferencia[1]>0)
-					i+=diferencia[1];
-					this.posicion[1]+= diferencia[1];
+					this.posicion[1]+= 1;
 				if(diferencia[1]<0)
-					i-=diferencia[1];
-					this.posicion[1]-= diferencia[1];
+					this.posicion[1]-= 1;
+				
+			//si está a la misma distacia -> se mueve en diagonal
 			}else {
+				//se mueve en x
 				if(diferencia[0]>0)
-					i+=diferencia[0];
-					this.posicion[0]+= diferencia[0];
+					this.posicion[0]+= 1;
 				if(diferencia[0]<0)
-					i-=diferencia[0];
-					this.posicion[0]-= diferencia[0];
+					this.posicion[0]-= 1;
+				
+				//se mueve en y
+				if(diferencia[1]>0)
+					this.posicion[1]+= 1;
+				if(diferencia[1]<0)
+					this.posicion[1]-= 1;
 			}
 		}
+		
+		//updatear la casilla en la que está el personaje
+		tablero.casillas[this.posicion[0]][this.posicion[1]].setIsOccupied(true);
+		tablero.casillas[this.posicion[0]][this.posicion[1]].setJugador(this);
 	}
 	
 	//toString

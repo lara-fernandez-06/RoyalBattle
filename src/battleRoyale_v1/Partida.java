@@ -7,21 +7,39 @@ import java.util.Scanner;
 public class Partida {
 	//Atributos
 	private ArrayList<Personaje> jugadores;
-	//private ArrayList<ArrayList<Personaje>> tablero;
-	//Tablero tablero = new Tablero(jugadores);
+	Tablero tablero;
 	String nombreFichero = new String("datosOrigen.txt");
 	
 	public Partida() {
 		jugadores = new ArrayList<Personaje>();
-		//tablero = new ArrayList<ArrayList<Personaje>>();
+		tablero = new Tablero(jugadores);
 		
 	}
 	
 	public void jugarPartida() {
+		//inicializamos la partida: leemos ficheros y creamos los jugadores, armas y tablero
+		inicializarPartida();
+		
+		//se repite hasta que solo queda 1
+		while(jugadores.size() > 1) { //rondas
+			
+			//turno:
+			//TODO: recorrer el arrayList para que participen todos
+			
+			
+				
+		}
+	}
+	
+	private void inicializarPartida() {
 		//Añadimos a jugadores el personaje creado por el usuario
 		jugadores.add(crearPersonajeUsuario());
 		leerFicheroPartida(nombreFichero);
-		System.out.println(jugadores.toString());
+		for(int i=0; i<jugadores.size(); i++) {
+			System.out.println(jugadores.get(i).toStringWithStats());
+		}
+		
+		
 	}
 	
 	
@@ -44,7 +62,7 @@ public class Partida {
 			}else if(rol.equalsIgnoreCase("Ladrón")) {
 				return new Ladron(escogerNombre(escaner), escogerArma(escaner));
 			}else {
-				System.err.println("Error, no has escrito ninguno de los roles disponibles.Intentalo de nuevo.");
+				System.err.println("Error, no has escrito ninguno de los roles disponibles. Inténtalo de nuevo.");
 				error = true;
 			}
 		}while(error == true);
@@ -77,7 +95,7 @@ public class Partida {
 			}else if(arma.equalsIgnoreCase("Daga")) {
 				return new Daga();
 			}else {
-				System.err.println("Error, no has escrito ninguno de los roles disponibles.Intentalo de nuevo.");
+				System.err.println("Error, no has escrito ninguno de las armas disponibles. Inténtalo de nuevo.");
 				error = true;
 			}
 		}while(error == true);
@@ -106,9 +124,9 @@ public class Partida {
 					crearPersonaje(sl.next(), sl.next(), sl.next());
 					counter++;
 				}catch(ArmaNotExistException armaE) {
-					System.out.println(armaE.getMessage());
+					System.err.println(armaE.getMessage());
 				}catch(PersonajeNotExistException personajeE) {
-					System.out.println(personajeE.getMessage());
+					System.err.println(personajeE.getMessage());
 				}finally {
 					sl.close();
 				}
