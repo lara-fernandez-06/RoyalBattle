@@ -3,11 +3,8 @@ package battleRoyale_v1;
 public class Casilla {
 
 	private boolean isDestroyed;
-	
 	private Personaje personaje;
-	private Loot loot; //TEMPORAL!!!!! es que no hay clase hecha y no lo hemos hablado como para hacerla yo
-					   //en esta deberían entrar armas también, asi que a lo mejor habría que hacer una genérica
-	
+	private Loot loot; 
 	private int[] posicion; //para tener guardada la posicion en el tablero
 	
 	public Casilla(int x, int y) {

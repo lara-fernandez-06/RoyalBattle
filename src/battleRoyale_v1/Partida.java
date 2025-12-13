@@ -20,6 +20,9 @@ public class Partida {
 		//inicializamos la partida: leemos ficheros y creamos los jugadores, armas y tablero
 		inicializarPartida();
 		
+		tablero.inicializarTablero();
+		tablero.mostrarTablero();
+		
 		//se repite hasta que solo queda 1
 		while(jugadores.size() > 1) { //rondas
 			
