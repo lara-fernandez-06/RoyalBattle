@@ -13,7 +13,7 @@ public class Casilla {
 	public Casilla(int x, int y) {
 		this.isDestroyed=false;
 		this.personaje=null; //empezamos sin jugadores en las casillas 
-		//this.loot=null;
+		this.loot=null;
 		this.posicion = new int[2];
 		this.posicion[0]=x;
 		this.posicion[1]=y;
@@ -21,16 +21,8 @@ public class Casilla {
 	
 	
 	//getters
-	public boolean getIsOccupied() {
-		return this.isOccupied;
-	}
-	
 	public boolean getIsDestroyed() {
 		return this.isDestroyed;
-	}
-	
-	public boolean getHasLoot() {
-		return this.hasLoot;
 	}
 	
 	public int[] getPosicion() {
@@ -46,11 +38,15 @@ public class Casilla {
 	}
 	
 	//setters
+	public void setIsDestroyed(boolean isDestroyed) {
+		this.isDestroyed = isDestroyed;
+	}
+	
 	public void setPersonaje(Personaje personaje) {
 		this.personaje = personaje;
 	}
 	
-	public void setIsOccupied(boolean isOccupied) {
-		this.isOccupied = isOccupied;
+	public void setLoot(Loot loot) {
+		this.loot = loot;
 	}
 }
