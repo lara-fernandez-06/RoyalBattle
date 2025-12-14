@@ -44,12 +44,13 @@ public class MapJuego_BR {
 
 //---IMAGEN FONDO---
 		    Imagenfondo imagenFondo = new Imagenfondo("mesa.jpeg");
-			imagenFondo.setLayout(new BorderLayout());
+			imagenFondo.setLayout(null);
 			imagenFondo.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)		
 //---IMAGEN MAPA---
 		    Imagenfondo imagenMapa = new Imagenfondo("mapa.jpg");
 		    imagenMapa.setLayout(new BorderLayout());
-			//imagenFondo.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)		  
+		    imagenMapa.setPreferredSize(new Dimension(400, 300));  
+		    imagenMapa.setBounds(40, 30, 500, 400); //Para que no cambie cuando cambia el texto
 
 		    
 // ---CONTAINERS Y JPANELS---	   	    
@@ -60,9 +61,6 @@ public class MapJuego_BR {
 	        JPanel tablero = new JPanel();
 	        tablero.setOpaque(false); 
 	        tablero.setLayout(new GridLayout(fila,columna,5,5));	
-
-	        	//TABLERO
-
 
 	        //---POSICIÓN TEXTP---
 	        JPanel posicionTexto = new JPanel();
@@ -100,7 +98,7 @@ public class MapJuego_BR {
 			  //---BOTTON NEXT---
 			  MapaActionPerformed mapPerActionPerformed = new MapaActionPerformed();
 			    //Guarda la info del nombre dentro
-			  MapaActionPerformed.BotonNextListener listenerBN = mapPerActionPerformed.new BotonNextListener();
+			  MapaActionPerformed.BotonNextListener listenerBN = mapPerActionPerformed.new BotonNextListener(texto, casillas);
 			    buttonNext.addActionListener(listenerBN);
 
  //--SETTINGS PARA QUE FUNCIONEN LOS ACCTIONLISTENERS---
@@ -108,6 +106,7 @@ public class MapJuego_BR {
 //---ADDS---
 			  //---TEXTO---
 		        posicionTexto.add(texto,  BorderLayout.CENTER);
+		        posicionTexto.setBounds(40, 450, 500, 400); //Para que esté avajo y no estorbe  a la imagen
 				//---BOTÓN---
 			    buttonNextposicion.add(buttonNext);
 			    posicionTexto.add(buttonNextposicion,BorderLayout.SOUTH);

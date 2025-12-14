@@ -174,6 +174,9 @@ public class Settings {
 		    SettingsActionPerformed.BoxAltoListener listenerAL = settingsAlto.new BoxAltoListener();
 		    tamVentanaAlto.addActionListener(listenerAL);
 		    
+		    //---AVISITO---
+		    JOptionPane.showMessageDialog(null,"Se recomienda no editar el ancho de pantalla para una mejor experiencia"); 
+		    
 	//---ADDS---
 		    //---TÍTULO Y SUBTÍTULO---
 		    tituloSubtitulo.add(titulo);
