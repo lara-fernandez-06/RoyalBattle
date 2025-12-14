@@ -1,14 +1,17 @@
 package battleRoyale_v1;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Partida {
-	//Atributos
+	
 	private ArrayList<Personaje> jugadores;
 	Tablero tablero;
 	String nombreFichero = new String("datosOrigen.txt");
+	private int numRonda = 0;
+	
 	
 	public Partida() {
 		jugadores = new ArrayList<Personaje>();
@@ -16,35 +19,65 @@ public class Partida {
 		
 	}
 	
+	
 	public void jugarPartida() {
-		//inicializamos la partida: leemos ficheros y creamos los jugadores, armas y tablero
-		inicializarPartida();
 		
-		tablero.inicializarTablero();
-		tablero.mostrarTablero();
-		
-		//se repite hasta que solo queda 1
-		while(jugadores.size() > 1) { //rondas
-			
-			//turno:
-			//TODO: recorrer el arrayList para que participen todos
-			for(int i=0; i<jugadores.size(); i++) {
-				if(jugadores.get(i).checkAlive()) { //solo tiene turno si sigue vivo
-					jugadores.get(i).checkSurroundings(tablero);
-					//TODO: hay algo más a lo que llamar aqui?? o checkSurroundings() ya llama a todo lo demás??
-				}
-			}
-			
-			//después de cada ronda borramos a los muertos
-			for(int i=0; i<jugadores.size(); i++) {
-				if(jugadores.get(i).checkAlive() == false) {
-					jugadores.remove(i);
-				}
-			}
-			
-				
-		}
+	    //Inicializamos la partida
+	    inicializarPartida();
+
+	    //Creamos el log y usamos try-with-resources para cerrarlo automáticamente
+	    try (PrintWriter pw = new PrintWriter(new FileWriter("resultados.log", true))) {
+
+	        //Log: inicio de partida
+	        pw.println(LocalDateTime.now() + " | INFO | Empieza la partida. Jugadores iniciales: " + jugadores.size());
+	        pw.flush();
+
+	        //Inicializamos el tablero
+	        tablero.inicializarTablero();
+	        tablero.mostrarTablero();
+
+	        //Lógica de la partida
+	        numRonda = 0;
+	        while (jugadores.size() > 1) { //Rondas
+
+	            numRonda++; //para que la primera sea 1
+	            //Log: inicio de ronda
+	            pw.println(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
+	            pw.flush();
+
+	            //Turnos de cada jugador
+	            for (int i = 0; i < jugadores.size(); i++) {
+	                if (jugadores.get(i).checkAlive()) {
+	                    jugadores.get(i).checkSurroundings(tablero);
+	                }
+	            }
+
+	            //Eliminamos jugadores muertos y logueamos
+	            for (int i = 0; i < jugadores.size(); i++) {
+	                if (!jugadores.get(i).checkAlive()) {
+	                    pw.println(LocalDateTime.now() + " | INFO | " 
+	                        + jugadores.get(i).getNombre() 
+	                        + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
+	                    pw.flush();
+	                    jugadores.remove(i);
+	                    i--; // Para no saltarnos jugadores al borrar
+	                }
+	            }
+	        }
+
+	        //Log: ganador
+	        if (jugadores.size() == 1) {
+	            pw.println(LocalDateTime.now() + " | INFO | GANADOR: " 
+	                + jugadores.get(0).getNombre() 
+	                + " [ID: " + jugadores.get(0).getId() + "]");
+	            pw.flush();
+	        }
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 	
 	private void inicializarPartida() {
 		//Añadimos a jugadores el personaje creado por el usuario
@@ -58,6 +91,7 @@ public class Partida {
 	}
 	
 	
+	//CREACIÓN DEL PERSONAJE DEL JUGADOR
 	private Personaje crearPersonajeUsuario() {
 		Scanner escaner = new Scanner(System.in);
 		String rol;
@@ -118,6 +152,8 @@ public class Partida {
 		return null;
 	}
 	
+	
+	//GESTION FICHERO DATOS
 	private void leerFicheroPartida(String nombreFichero) {
 		//definimos las variables
 		File f;
@@ -195,6 +231,8 @@ public class Partida {
 		}
 	}
 	
+	
+	//CREACIÓN DE PERSONAJES
 	private Arma crearArma(String nombreArma) throws ArmaNotExistException{
 		if(nombreArma.equalsIgnoreCase("Espada")) {
 			return new Espada();

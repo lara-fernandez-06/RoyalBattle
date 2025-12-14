@@ -13,7 +13,7 @@ public class Tablero {
 	
 	public Tablero(ArrayList<Personaje> jugadores) {
 		this.jugadores = jugadores;
-		this.LADOTABLERO = 10; //de momento es valor default, luego si eso hacemos que se pueda elegir
+		this.LADOTABLERO = 11; //de momento es valor default, luego si eso hacemos que se pueda elegir
 		this.casillas = new Casilla[this.LADOTABLERO][this.LADOTABLERO];
 		for(int i=0; i<this.LADOTABLERO; i++) {
 			for(int j=0; j<this.LADOTABLERO; j++) {

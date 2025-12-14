@@ -127,7 +127,7 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		return null; //donde llamemos a esta función hay que poner un if(checkEnemies == null), y solo hacer algo si no lo es (pero no comparar con true/false)
 	}
-	
+
 	private Casilla checkLoot(Tablero tablero) {
 		
 		int i=0, j=0;
@@ -341,4 +341,21 @@ public abstract class Personaje implements AccionesPersonaje {
 	public void setArma(Arma arma) {
 		this.arma = arma;
 	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 }
