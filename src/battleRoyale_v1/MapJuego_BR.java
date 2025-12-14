@@ -27,14 +27,11 @@ public class MapJuego_BR {
 	public static void mapJuego_BR(int alto, int ancho) {
 		System.out.println("HAS ABIERTO EL MAPA DEL JUEGO");
 //---VARIABLES---
-		//Sacar el ancho y alto que ha decidido el usuario			
-				//System.out.println("Ancho:"+ancho+" Alto: "+alto);
+		int fila = 11;
+		int columna = 11;
 		//---FONT--- 
 			//La fuente que voy a usar, sitiene algún tipo especial y el tamaño
-				Font fuenteTitulo=new Font("Times New Roman", Font.BOLD, 40); 
-				Font fuenteSubtitulo=new Font("Times New Roman", Font.PLAIN, 20); 
 				Font fuenteTexto=new Font("Times New Roman", Font.BOLD, 15); 
-				Font fuentepiePagina=new Font("Times New Roman", Font.ITALIC, 10); 
 
 //---INICIALIZAR JFRAME---
 			JFrame jFrame = new JFrame("RoyalBattle_MapaJuego");
@@ -46,77 +43,79 @@ public class MapJuego_BR {
 		    jFrame.setLocationRelativeTo(null); //Cerrar proceso al cerrar la ventana
 
 //---IMAGEN FONDO---
-		    Imagenfondo imagenFondo = new Imagenfondo("fondoImagen.jpg");
+		    Imagenfondo imagenFondo = new Imagenfondo("mesa.jpeg");
 			imagenFondo.setLayout(new BorderLayout());
 			imagenFondo.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)		
 //---IMAGEN MAPA---
 		    Imagenfondo imagenMapa = new Imagenfondo("mapa.jpg");
-			imagenFondo.setLayout(new BorderLayout());
-			imagenFondo.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)		  
-		    
-//---CREACIÓN DE LAS INTERFAZ DE CREACIÓN DE PERSONAJE ---	
-			 //---TÍTULO---
-		    JLabel titulo = new JLabel(); 
-		    titulo.setText("ROYALBATTLE");
-		    titulo.setFont(fuenteTitulo);
-		    titulo.setHorizontalAlignment(SwingConstants.CENTER);//Para que se quede en el centro de la pantalla
-		    titulo.setForeground(Color.white);
-		    titulo.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.black));
-		    
-		   
-		    //---PIE DE PÁGINA---
-		    JLabel piePagina = new JLabel();
-		    piePagina.setText("<html><br>Trabajo creado por:<br>Carlos Bravo, Lara Fernandez, Alonnso López, Cecilia Muñoz, Adriana Remiro</html>");
-		    piePagina.setFont(fuentepiePagina);
-		    piePagina.setForeground(Color.white);
-		    
+		    imagenMapa.setLayout(new BorderLayout());
+			//imagenFondo.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)		  
+
 		    
 // ---CONTAINERS Y JPANELS---	   	    
 		    //---CONTENEDOR GENERAL---
 		    Container contentPane = jFrame.getContentPane(); 
 	        contentPane.setLayout(new BorderLayout());  
-	        
-		    //---SOBRE TEXTOS---		
-	        JPanel posicionTitulo = new JPanel();
-	        posicionTitulo.setOpaque(false); // Transparente para que se vea la imagen
-	        posicionTitulo.setLayout(new GridLayout(2,1,1,1));	
-	        
-	        JPanel posicionPiePagina = new JPanel();
-		    posicionPiePagina.setOpaque(false); 
-		    posicionPiePagina.setLayout(new GridLayout(2,1,1,1));	
-		    
-		    //---COSITAS DEL CENTRO---    
-		    	
-		    
-		    
-		    	
-		    
-		    	//---AÑADIR TODAS LAS COSAS---
-		    JPanel posicionCentral = new JPanel();
-		    posicionCentral.setOpaque(false); 
-		    posicionCentral.setLayout(new GridLayout(4,1,1,1));	
-		    
-	//	    posicionCentral.add(posicionNombre);
+	        //--POSICIÓN MAPA---
+	        JPanel tablero = new JPanel();
+	        tablero.setOpaque(false); 
+	        tablero.setLayout(new GridLayout(fila,columna,5,5));	
 
+	        	//TABLERO
+
+
+	        //---POSICIÓN TEXTP---
+	        JPanel posicionTexto = new JPanel();
+	        posicionTexto.setOpaque(false); 
+	        posicionTexto.setLayout(new GridLayout(2,1,0,0));	
+	        
+	        //---POSICIÓN BOTÓN---
+	        JPanel buttonNextposicion = new JPanel(new GridBagLayout());
+		    buttonNextposicion.setOpaque(false); 
+	        
+//---CREACIÓN DE LAS INTERFAZ DE CREACIÓN DE PERSONAJE ---	
+		  //---TEXTO---
+			  JLabel texto = new JLabel(); 
+			  texto.setText( "<html>Wow cuanto texto<br> Si efectivamente aquí va a ir todo lo del juego<br> me veo guapa señor cangrejo<br> uwuwuwuwwu<br> cositas<br> no se cuanto podrán escribir<br> OWO</html>");
+			  texto.setFont(fuenteTexto);
+			  texto.setHorizontalAlignment(SwingConstants.CENTER);//Para que se quede en el centro de la pantalla
+			  texto.setForeground(Color.white);
+			  
+			//---BOTÓN NEXT---
+		        JButton buttonNext = new JButton("SIGUIENTE TURNO");
+			  
+			 //---TABLERO/MAPA---
+			  JLabel[][] casillas = new JLabel[fila][columna];
+				
+			  for (int i = 0; i < fila; i++) {
+				  for (int j = 0; j < columna; j++) {
+					  casillas[i][j] = new JLabel();
+					  casillas[i][j].setOpaque(true); 
+					  casillas[i][j].setBackground(new Color(0, 0, 0, 0)); //ES transparente más adelante puedo hacer que se vea de color rojo para que se vea que se ha eliminado
+					  casillas[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK,1));
+					  casillas[i][j].setText(" ");
+					  tablero.add(casillas[i][j]);	//Van entrando por orden
+				    }
+				}    
+			  //---BOTTON NEXT---
+			  MapaActionPerformed mapPerActionPerformed = new MapaActionPerformed();
+			    //Guarda la info del nombre dentro
+			  MapaActionPerformed.BotonNextListener listenerBN = mapPerActionPerformed.new BotonNextListener();
+			    buttonNext.addActionListener(listenerBN);
 
  //--SETTINGS PARA QUE FUNCIONEN LOS ACCTIONLISTENERS---
 		    
 //---ADDS---
-			//---TÍTULO---
-		    posicionTitulo.add(titulo);
-	  
-			//---PANEL CENTRAL---
-			    //Añadido arriba
-			    
-			//---PIE DE PÁGINA---
-		    posicionPiePagina.add(piePagina);
-		    		    
+			  //---TEXTO---
+		        posicionTexto.add(texto,  BorderLayout.CENTER);
+				//---BOTÓN---
+			    buttonNextposicion.add(buttonNext);
+			    posicionTexto.add(buttonNextposicion,BorderLayout.SOUTH);
 			//---IMAGENES---
-		    imagenMapa.add(posicionCentral,BorderLayout.CENTER);   
-		    imagenFondo.add(posicionCentral,BorderLayout.CENTER);   
-		    imagenFondo.add(posicionTitulo,BorderLayout.NORTH);   
+			    imagenMapa.add(tablero);   
+			    
+			    imagenFondo.add(posicionTexto,BorderLayout.SOUTH); 
 		    imagenFondo.add(imagenMapa, BorderLayout.CENTER);
-		    imagenFondo.add(posicionPiePagina,BorderLayout.SOUTH); 
 		    
 			//--CONTENTPANE--
 			contentPane.add(imagenFondo, BorderLayout.CENTER);
