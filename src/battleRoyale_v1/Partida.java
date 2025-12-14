@@ -28,7 +28,19 @@ public class Partida {
 			
 			//turno:
 			//TODO: recorrer el arrayList para que participen todos
+			for(int i=0; i<jugadores.size(); i++) {
+				if(jugadores.get(i).checkAlive()) { //solo tiene turno si sigue vivo
+					jugadores.get(i).checkSurroundings(tablero);
+					//TODO: hay algo más a lo que llamar aqui?? o checkSurroundings() ya llama a todo lo demás??
+				}
+			}
 			
+			//después de cada ronda borramos a los muertos
+			for(int i=0; i<jugadores.size(); i++) {
+				if(jugadores.get(i).checkAlive() == false) {
+					jugadores.remove(i);
+				}
+			}
 			
 				
 		}

@@ -100,16 +100,11 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		
 		//TODO Comprobar si el rango del arma es suficiente como para darle al enemigo, si no lo es, sse mueve hacia el
-		//para esto tenemos que encontrar una forma de calcular la distancia entre casillas
-		//hay que pensar que pasa si están situados el L, como un caballo de ajedrez:
-		/* [x][ ][ ]
-		 * [ ][ ][ ]  -> esto cuantas casillas son?? podriamos decir q son 2 porque está en el segundo "anillo"
-		 * [ ][x][ ]
-		 */
+		
 	}
 	
 	//deberiamos devolver donde está el enemigo para que se pueda mover hacia el, deberiamos devolver la casilla entera??
-	public Casilla checkEnemies(Tablero tablero) {
+	private Casilla checkEnemies(Tablero tablero) {
 		/*Si encuentra enemigos devuelve true, si encuentra multiples que vaya a por el que más cerca está, si hay multiples en una distancia igual, que vaya a por el que menos vida tenga, 
 		y si tienen la misma vida pues que elija al azar
 		Si no false*/
@@ -133,7 +128,7 @@ public abstract class Personaje implements AccionesPersonaje {
 		return null; //donde llamemos a esta función hay que poner un if(checkEnemies == null), y solo hacer algo si no lo es (pero no comparar con true/false)
 	}
 	
-	public Casilla checkLoot(Tablero tablero) {
+	private Casilla checkLoot(Tablero tablero) {
 		
 		int i=0, j=0;
 		
@@ -166,12 +161,11 @@ public abstract class Personaje implements AccionesPersonaje {
 		return false; //si no puede dar al personaje devuelve false
 	}
 	
-	//hay que pensar que le vamos a pasar en el caso que se mueva al centro
-	public void moverLoot(Casilla objetivo, Tablero tablero) {
+	//TODO: hay que pensar que le vamos a pasar en el caso que se mueva al centro
+	private void moverLoot(Casilla objetivo, Tablero tablero) {
 		//lo más fácil sería hacer que se mueva en el eje x hasta que coincida con la x del objetivo, y luego se mueva en la y
 		//creo que podría dar problemas si los dos se tienen de objetivos entre sí (si son dos personajes, si uno es loot da igual)
 		//si no lo que se podría hacer es que calcule si está a más casillas de la x o de la y y que se mueva para cerrar la distancia más grande
-		//TODO: logica de movimiento
 		
 		
 		int[] objetivoPosicion; //Una variable donde guardaremos la posicion del objetivo
@@ -225,7 +219,7 @@ public abstract class Personaje implements AccionesPersonaje {
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(this);
 	}
 	
-	public void moverEnemigo(Casilla objetivo, Tablero tablero) {
+	private void moverEnemigo(Casilla objetivo, Tablero tablero) {
 		//lo más fácil sería hacer que se mueva en el eje x hasta que coincida con la x del objetivo, y luego se mueva en la y
 		//creo que podría dar problemas si los dos se tienen de objetivos entre sí (si son dos personajes, si uno es loot da igual)
 		//si no lo que se podría hacer es que calcule si está a más casillas de la x o de la y y que se mueva para cerrar la distancia más grande
@@ -280,8 +274,12 @@ public abstract class Personaje implements AccionesPersonaje {
 		}
 		
 		//updatear la casilla en la que está el personaje
-		//tablero.casillas[this.posicion[0]][this.posicion[1]].setIsOccupied(true);
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(this);
+	}
+	
+	public boolean checkAlive() {
+		if(this.vida<=0) return true;
+		else return false;
 	}
 	
 	//toString
