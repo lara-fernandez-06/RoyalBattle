@@ -40,10 +40,6 @@ System.out.println("HAS ABIERTO EL MENNNNNÚ");
 		MenuActionPerformed inicializandoMenu = new MenuActionPerformed();
 		inicializandoMenu.setNombreVentana(jFrame);
 //---JFRAME---		
-		//TamInterfaz profile = tamSeleccionado;
-		//frame.setSize(profile.width, profile.height);
-		//label.setFont(new Font("SansSerif", Font.PLAIN, profile.fontSize));
-		
 	    jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    jFrame.setSize(alto, ancho);  //Tamaño de la ventana
 	    jFrame.setResizable(false); //Para que en esta pantalla no pueda agrandar la pantalla -> Queda más aestethic aka parecido a un programa antes de inicializar
