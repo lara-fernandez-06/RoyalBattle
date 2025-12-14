@@ -21,29 +21,29 @@ public class Partida {
 	
 	
 	public void jugarPartida() {
-		
-	    //Inicializamos la partida
+
+		//Inicializamos la partida
 	    inicializarPartida();
 
-	    //Creamos el log y usamos try-with-resources para cerrarlo automáticamente
-	    try (PrintWriter pw = new PrintWriter(new FileWriter("resultados.log", true))) {
+	    LogPartida log = null;
 
-	        //Log: inicio de partida
-	        pw.println(LocalDateTime.now() + " | INFO | Empieza la partida. Jugadores iniciales: " + jugadores.size());
-	        pw.flush();
+	    try {
+	        //Creación del log
+	        log = new LogPartida("resultados.log");
+	        log.log(LocalDateTime.now() + " | INFO | Empieza la partida. Jugadores iniciales: " + jugadores.size());
 
 	        //Inicializamos el tablero
 	        tablero.inicializarTablero();
 	        tablero.mostrarTablero();
 
-	        //Lógica de la partida
+	        //LÓGICA DE PARTIDA (RONDAS Y MUERTES)
 	        numRonda = 0;
-	        while (jugadores.size() > 1) { //Rondas
-
-	            numRonda++; //para que la primera sea 1
+	        
+	        while (jugadores.size() > 1) { // Rondas
+	            numRonda++;
+	            
 	            //Log: inicio de ronda
-	            pw.println(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
-	            pw.flush();
+	            log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
 
 	            //Turnos de cada jugador
 	            for (int i = 0; i < jugadores.size(); i++) {
@@ -55,30 +55,27 @@ public class Partida {
 	            //Eliminamos jugadores muertos y logueamos
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (!jugadores.get(i).checkAlive()) {
-	                    pw.println(LocalDateTime.now() + " | INFO | " 
-	                        + jugadores.get(i).getNombre() 
-	                        + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
-	                    pw.flush();
-	                    jugadores.remove(i);
-	                    i--; // Para no saltarnos jugadores al borrar
+	                    log.log(LocalDateTime.now() + " | INFO | " + jugadores.get(i).getNombre() + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
+	                    jugadores.remove(i); //Eliminamos muerto del arraylist
+	                    i--; //Para no saltarnos jugadores al borrar
 	                }
 	            }
 	        }
-
+	        
+	        //FIN DE PARTIDA: GANADOR
 	        //Log: ganador
 	        if (jugadores.size() == 1) {
-	            pw.println(LocalDateTime.now() + " | INFO | GANADOR: " 
-	                + jugadores.get(0).getNombre() 
-	                + " [ID: " + jugadores.get(0).getId() + "]");
-	            pw.flush();
+	            log.log(LocalDateTime.now() + " | INFO | GANADOR: " + jugadores.get(0).getNombre() + " [ID: " + jugadores.get(0).getId() + "]");
 	        }
 
 	    } catch (IOException e) {
 	        e.printStackTrace();
+	    } finally {
+	        if (log != null) log.cerrar();
 	    }
 	}
 
-	
+
 	private void inicializarPartida() {
 		//Añadimos a jugadores el personaje creado por el usuario
 		jugadores.add(crearPersonajeUsuario());
@@ -86,7 +83,6 @@ public class Partida {
 		for(int i=0; i<jugadores.size(); i++) {
 			System.out.println(jugadores.get(i).toStringWithStats());
 		}
-		
 		
 	}
 	
