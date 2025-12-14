@@ -47,6 +47,7 @@ public class Partida {
 
 	            //Turnos de cada jugador
 	            for (int i = 0; i < jugadores.size(); i++) {
+	            	System.out.println(jugadores.get(i).checkAlive());
 	                if (jugadores.get(i).checkAlive()) {
 	                    jugadores.get(i).checkSurroundings(tablero);
 	                }

@@ -162,114 +162,34 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 	
 	//TODO: hay que pensar que le vamos a pasar en el caso que se mueva al centro
-	private void moverLoot(Casilla objetivo, Tablero tablero) {
-		//lo más fácil sería hacer que se mueva en el eje x hasta que coincida con la x del objetivo, y luego se mueva en la y
-		//creo que podría dar problemas si los dos se tienen de objetivos entre sí (si son dos personajes, si uno es loot da igual)
-		//si no lo que se podría hacer es que calcule si está a más casillas de la x o de la y y que se mueva para cerrar la distancia más grande
-		
+	private void moverLoot(Casilla objetivo, Tablero tablero) {		
 		
 		int[] objetivoPosicion; //Una variable donde guardaremos la posicion del objetivo
-		int[] diferencia = new int[2]; //Array donde guardamos la diferencia entre personaje y objetivo
 		objetivoPosicion = objetivo.getPosicion();
 		
 		//eliminar el personaje de la casilla en el que empieza
-		//tablero.casillas[this.posicion[0]][this.posicion[1]].setIsOccupied(false);
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(null);
 		
-		for(int i=0; i<this.pasos; i++) {
-			
-			diferencia[0] = objetivoPosicion[0]-this.posicion[0];
-			diferencia[1] = objetivoPosicion[1]-this.posicion[1];
-			
-			//las comparaciones están en absoluto para que no influya el signo
-			//si está mas lejos en la x que en la y -> se mueve en x
-			if(Math.abs(diferencia[0])>Math.abs(diferencia[1])) {
-				//mira el signo de diferencia y me mueve hacia la derecha o izquierda
-				if(diferencia[0]>0)
-					this.posicion[0]+= 1;
-				if(diferencia[0]<0)
-					this.posicion[0]-= 1;
-				
-			//si está mas lejos en la y que en la x -> se mueve en y
-			}else if(Math.abs(diferencia[1])>Math.abs(diferencia[0])){
-				//mira el signo de diferencia y se mueve arriba o abajo
-				if(diferencia[1]>0)
-					this.posicion[1]+= 1;
-				if(diferencia[1]<0)
-					this.posicion[1]-= 1;
-				
-			//si está a la misma distacia -> se mueve en diagonal
-			}else {
-				//se mueve en x
-				if(diferencia[0]>0)
-					this.posicion[0]+= 1;
-				if(diferencia[0]<0)
-					this.posicion[0]-= 1;
-				
-				//se mueve en y
-				if(diferencia[1]>0)
-					this.posicion[1]+= 1;
-				if(diferencia[1]<0)
-					this.posicion[1]-= 1;
-			}
+		for(int i=0; i<this.pasos; i++) {			
+			this.moverPaso(objetivoPosicion);
 		}
 		
 		//updatear la casilla en la que está el personaje
-		//tablero.casillas[this.posicion[0]][this.posicion[1]].setIsOccupied(true);
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(this);
 	}
 	
 	private void moverEnemigo(Casilla objetivo, Tablero tablero) {
-		//lo más fácil sería hacer que se mueva en el eje x hasta que coincida con la x del objetivo, y luego se mueva en la y
-		//creo que podría dar problemas si los dos se tienen de objetivos entre sí (si son dos personajes, si uno es loot da igual)
-		//si no lo que se podría hacer es que calcule si está a más casillas de la x o de la y y que se mueva para cerrar la distancia más grande
-		//TODO: logica de movimiento
-		
 		
 		int[] objetivoPosicion; //Una variable donde guardaremos la posicion del objetivo
-		int[] diferencia = new int[2]; //Array donde guardamos la diferencia entre personaje y objetivo
+		
 		objetivoPosicion = objetivo.getPosicion();
 		
 		//eliminar el personaje de la casilla en el que empieza
-		//tablero.casillas[this.posicion[0]][this.posicion[1]].setIsOccupied(false);
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(null);
 		
 		for(int i=0; i<this.pasos; i++) {
 			if(this.checkGolpear(tablero) == false) {
-				diferencia[0] = objetivoPosicion[0]-this.posicion[0];
-				diferencia[1] = objetivoPosicion[1]-this.posicion[1];
-				
-				//las comparaciones están en absoluto para que no influya el signo
-				//si está mas lejos en la x que en la y -> se mueve en x
-				if(Math.abs(diferencia[0])>Math.abs(diferencia[1])) {
-					//mira el signo de diferencia y me mueve hacia la derecha o izquierda
-					if(diferencia[0]>0)
-						this.posicion[0]+= 1;
-					if(diferencia[0]<0)
-						this.posicion[0]-= 1;
-					
-				//si está mas lejos en la y que en la x -> se mueve en y
-				}else if(Math.abs(diferencia[1])>Math.abs(diferencia[0])){
-					//mira el signo de diferencia y se mueve arriba o abajo
-					if(diferencia[1]>0)
-						this.posicion[1]+= 1;
-					if(diferencia[1]<0)
-						this.posicion[1]-= 1;
-					
-				//si está a la misma distacia -> se mueve en diagonal
-				}else {
-					//se mueve en x
-					if(diferencia[0]>0)
-						this.posicion[0]+= 1;
-					if(diferencia[0]<0)
-						this.posicion[0]-= 1;
-					
-					//se mueve en y
-					if(diferencia[1]>0)
-						this.posicion[1]+= 1;
-					if(diferencia[1]<0)
-						this.posicion[1]-= 1;
-				}
+				this.moverPaso(objetivoPosicion);
 			}
 		}
 		
@@ -277,8 +197,50 @@ public abstract class Personaje implements AccionesPersonaje {
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(this);
 	}
 	
+	//logica para decidir hacia donde se mueve el personaje
+	//calcula si está a más casillas de la x o de la y y que se mueve para cerrar la distancia más grande
+	private void moverPaso(int[] objetivoPosicion) {
+		
+		int[] diferencia = new int[2]; //Array donde guardamos la diferencia entre personaje y objetivo
+		
+		diferencia[0] = objetivoPosicion[0]-this.posicion[0];
+		diferencia[1] = objetivoPosicion[1]-this.posicion[1];
+		
+		//las comparaciones están en absoluto para que no influya el signo
+		//si está mas lejos en la x que en la y -> se mueve en x
+		if(Math.abs(diferencia[0])>Math.abs(diferencia[1])) {
+			//mira el signo de diferencia y me mueve hacia la derecha o izquierda
+			if(diferencia[0]>0)
+				this.posicion[0]+= 1;
+			if(diferencia[0]<0)
+				this.posicion[0]-= 1;
+			
+		//si está mas lejos en la y que en la x -> se mueve en y
+		}else if(Math.abs(diferencia[1])>Math.abs(diferencia[0])){
+			//mira el signo de diferencia y se mueve arriba o abajo
+			if(diferencia[1]>0)
+				this.posicion[1]+= 1;
+			if(diferencia[1]<0)
+				this.posicion[1]-= 1;
+			
+		//si está a la misma distacia -> se mueve en diagonal
+		}else {
+			//se mueve en x
+			if(diferencia[0]>0)
+				this.posicion[0]+= 1;
+			if(diferencia[0]<0)
+				this.posicion[0]-= 1;
+			
+			//se mueve en y
+			if(diferencia[1]>0)
+				this.posicion[1]+= 1;
+			if(diferencia[1]<0)
+				this.posicion[1]-= 1;
+		}
+	}
+	
 	public boolean checkAlive() {
-		if(this.vida<=0) return true;
+		if(this.vida>0) return true;
 		else return false;
 	}
 	
