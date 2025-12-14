@@ -40,18 +40,20 @@ public abstract class Personaje implements AccionesPersonaje {
 	
 	
 	public void atacar(Personaje enemigo) {
-		//TODO: NO SE SI ESTO ES CORRECTO PORQUE LUEGO EN TODOS LOS
-		//PEQUEÑOS PERSONAJES ME HACE PONER LOS MÉTODOS
-		if(this.buff == true) {
-			enemigo.quitarVida(arma.getDmg() * 2);
-		} else {
-			enemigo.quitarVida(arma.getDmg());
-		}
-		
-		//Comprobación si mi enemigo ha muerto
-		if(this.heSidoAtacado == true) {
-			if(enemigo.getVida() <= 0) {
-				this.heSidoAtacado = false; //El enemigo ha muerto
+		if(enemigo != null) {
+			if(enemigo.vida > 0) {
+				if(this.buff == true) {
+					enemigo.quitarVida(arma.getDmg() * 2);
+				} else {
+					enemigo.quitarVida(arma.getDmg());
+				}
+				
+				//Comprobación si mi enemigo ha muerto
+				if(this.heSidoAtacado == true) {
+					if(enemigo.getVida() <= 0) {
+						this.heSidoAtacado = false; //El enemigo ha muerto
+					}
+				}
 			}
 		}
 	}
@@ -247,7 +249,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	//toString
 	@Override
 	public String toString() {
-		return "Nombre: " + this.nombre + " Rol: " + this.rol.toString() + " Arma: " + this.arma.toString();
+		return "ID: " + this.id + "Nombre: " + this.nombre + " Rol: " + this.rol.toString() + " Arma: " + this.arma.toString();
 	}
 	
 	public String toStringWithStats() {
@@ -295,6 +297,19 @@ public abstract class Personaje implements AccionesPersonaje {
 	public int[] getPosicion() {
 		return this.posicion;
 	}
+	
+	public int getPosicionX() { //Setter
+		return this.posicion[0];
+	}
+	
+	public int getPosicionY() { //Setters
+		return this.posicion[1];
+	}
+	
+	public Rol getRol() { //Setters
+		return this.rol;
+	}
+
 
 	public Arma getArma() {
 		return arma;

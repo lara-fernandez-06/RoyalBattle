@@ -6,14 +6,13 @@ import java.util.Random;
 public class Tablero {
 
 	private final int LADOTABLERO;
-	private ArrayList<Personaje> jugadores; //para que tenemos el arrayList de jugadores aqui? 
+	//private ArrayList<Personaje> jugadores; //para que tenemos el arrayList de jugadores aqui? 
 	Casilla[][] casillas;
 	
 	Random rd = new Random();
 	
-	public Tablero(ArrayList<Personaje> jugadores) {
-		this.jugadores = jugadores;
-		this.LADOTABLERO = 11; //de momento es valor default, luego si eso hacemos que se pueda elegir
+	public Tablero() {
+		this.LADOTABLERO = 11;
 		this.casillas = new Casilla[this.LADOTABLERO][this.LADOTABLERO];
 		for(int i=0; i<this.LADOTABLERO; i++) {
 			for(int j=0; j<this.LADOTABLERO; j++) {
@@ -22,7 +21,7 @@ public class Tablero {
 		}
 	}
 	
-	public void inicializarTablero() {
+	public void inicializarTablero(ArrayList<Personaje> jugadores) {
 		
 		//Colocar los 25 personajes en casillas random:
 		for (Personaje p : jugadores) {
@@ -78,11 +77,9 @@ public class Tablero {
 	public void mostrarTablero() {
 		for (int i = 0; i < LADOTABLERO; i++) {
 	        for (int j = 0; j < LADOTABLERO; j++) {
-	            if (casillas[i][j].getPersonaje() != null && casillas[i][j].getLoot() != null) {
-	                System.out.print("[PL]");
-	            } else if (casillas[i][j].getPersonaje() != null){
-	                System.out.print("[P]");
-	            } else if (casillas[i][j].getLoot() != null) {
+	            if (this.casillas[i][j].getPersonaje() != null){
+	                System.out.print("[" + letraPersonaje(this.casillas[i][j]) + letraArma(this.casillas[i][j]) + "]");
+	            } else if (this.casillas[i][j].getLoot() != null) {
 	            	System.out.print("[L]");
 	            } else {
 	            	System.out.print("[ ]");
@@ -93,7 +90,41 @@ public class Tablero {
 	    }
 	}
 	
-	public void checkCharactersPosition() {
+	public char letraPersonaje(Casilla casilla) {
+		Rol rol = casilla.getPersonaje().getRol();
+		if(rol == Rol.CABALLERO) {
+			return 'C';
+		}else if(rol == Rol.OGRO) {
+			return 'O';
+		}else if(rol == Rol.ELFO) {
+			return 'E';
+		}else if(rol == Rol.MAGO) {
+			return 'M';
+		}else if(rol == Rol.LADRON) {
+			return 'L';
+		}else {
+			return 'e';
+		}
+	}
+	
+	public char letraArma(Casilla casilla) {
+		TipoArma tipoArma = casilla.getPersonaje().getArma().getTipoArma();
+		if(tipoArma == TipoArma.ESPADA) {
+			return 'E';
+		}else if(tipoArma == TipoArma.MAZA) {
+			return 'M';
+		}else if(tipoArma == TipoArma.ARCO) {
+			return 'A';
+		}else if(tipoArma == TipoArma.BACULO) {
+			return 'B';
+		}else if(tipoArma == TipoArma.DAGA) {
+			return 'D';
+		}else {
+			return 'e';
+		}
+	}
+	
+	public void checkCharactersPosition(ArrayList<Personaje> jugadores) {
 		for(int i=0; i < jugadores.size(); i++) {
 			int[] posicionJugador = jugadores.get(i).getPosicion();
 			

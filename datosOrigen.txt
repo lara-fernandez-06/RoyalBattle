@@ -4,11 +4,11 @@ Caballero;Arco;Caballero3
 Caballero;Báculo;Caballero4
 Caballero;Daga;Caballero5
 Ogro;Espada;Ogro1
-Og*ro;Maza;Ogro2
+Ogro;Maza;Ogro2
 Ogro;Arco;Ogro3
 Ogro;Báculo;Ogro4
 Ogro;Daga;Ogro5
-Elfo;Espakldjfalskjdflajsfdda;Elfo1
+Elfo;Espada;Elfo1
 Elfo;Maza;Elfo2
 Elfo;Arco;Elfo3
 Elfo;Báculo;Elfo4

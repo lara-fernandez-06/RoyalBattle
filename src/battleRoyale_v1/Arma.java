@@ -35,7 +35,11 @@ public abstract class Arma {
 	}
 	
 	public int getRango() {
-		return rango;
+		return this.rango;
+	}
+	
+	public TipoArma getTipoArma() { //Setters
+		return this.tipoArma;
 	}
 
 	public void setRango(int rango) {
