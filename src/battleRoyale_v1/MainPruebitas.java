@@ -4,9 +4,8 @@ public class MainPruebitas {
 
 	public static void main(String[] args) {
 		
-		PruebasAlonso pa = new PruebasAlonso();
-		
-		pa.imprimirMensajeAlonso();
+	//	PruebasAlonso pa = new PruebasAlonso();
+		//pa.imprimirMensajeAlonso();
 		
 		
 		InterfazRB.inicializarInterfaz();
