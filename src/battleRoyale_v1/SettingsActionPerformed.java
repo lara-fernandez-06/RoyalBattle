@@ -24,8 +24,8 @@ public class SettingsActionPerformed implements ActionListener {
 	
 //---CLASES INTERNAS PARA LOS ACTIONLISTENERS---
 	
-	//Para guardar el tamaño que quiere de ancho el usuario
-	class BoxAnchoListener implements ActionListener {
+	//Para guardar el tamaño que quiere de alto el usuario
+	class BoxAltoListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
 	    	 //@Override
 	    	JComboBox cbAN = (JComboBox)e.getSource(); //Toma toda la info de JComboBox
@@ -35,8 +35,8 @@ public class SettingsActionPerformed implements ActionListener {
 	    	System.out.println("HAS ELEGIDO: " +patronAncho+" ANCHO");
 	    }
 	}
-	 // Para guardar el tamaño que quiere de alto el usuario	
-	class BoxAltoListener implements ActionListener {
+	 // Para guardar el tamaño que quiere de ancho el usuario	
+	class BoxAnchoListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
 	    	 //@Override
 	    	JComboBox cbAL = (JComboBox)e.getSource(); //Toma toda la info de JComboBox
