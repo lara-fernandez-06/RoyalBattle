@@ -22,13 +22,12 @@ import javax.swing.border.EmptyBorder;
 
 public class MapJuego_BR {
 
-	
-	
-	public static void mapJuego_BR(int alto, int ancho) {
+	public MapJuego_BR(int alto, int ancho) {
 		System.out.println("HAS ABIERTO EL MAPA DEL JUEGO");
 //---VARIABLES---
 		int fila = 11;
 		int columna = 11;
+
 		//---FONT--- 
 			//La fuente que voy a usar, sitiene algún tipo especial y el tamaño
 				Font fuenteTexto=new Font("Times New Roman", Font.BOLD, 15); 
@@ -122,5 +121,6 @@ public class MapJuego_BR {
 //---SE VE---	    
 	    jFrame.setVisible(true);  
 	}
+	
 	
 }

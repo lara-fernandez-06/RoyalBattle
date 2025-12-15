@@ -23,7 +23,7 @@ import battleRoyale_v1.SettingsActionPerformed.BotonNextListener;
 
 public class Menu_BR {
 	
-	public static void Menu_BR(int alto, int ancho) {
+	public Menu_BR(int alto, int ancho) {
 System.out.println("HAS ABIERTO EL MENNNNNÚ");
 //---VARIABLES---
 	//Sacar el ancho y alto que ha decidido el usuario			

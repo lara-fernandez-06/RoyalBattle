@@ -11,9 +11,9 @@ public class PersonajeActionPerformed {
 
 //---VARIABLES---
 		private static JFrame menu_Ventana;
-		private String armaSeleccionada;
-		private String razaSeleccionada;
-		private JTextField nombrePersonaje;
+		private static String armaSeleccionada;
+		private static String razaSeleccionada;
+		private static JTextField nombrePersonaje;
 		
 		class ArmaJRBListener implements ActionListener {
 			@Override
@@ -46,7 +46,13 @@ public class PersonajeActionPerformed {
 			
 			public void actionPerformed(ActionEvent e) {
 		    	 //@Override
+				
+				
+				Partida p = new Partida();
+		    	p.inicializarPartida();
 		    	CerrarVentanaListener();
+		    	p.jugarPartida();
+		    	
 		    }
 		    
 		    private void CerrarVentanaListener() {	   
@@ -65,14 +71,16 @@ public class PersonajeActionPerformed {
 		       System.out.println("RAZA SELECCIONADA: " + getRaza());
 		        System.out.println("ARMA SELECCIONADA: " + getArma());
 		        
-		    	MapJuego_BR.mapJuego_BR(tamAlto,tamAncho);  			 // Abrir la ventana de mapa 
+		    	//MapJuego_BR.mapJuego_BR(tamAlto,tamAncho);  			 // Abrir la ventana de mapa 
 
-		    	menu_Ventana = getNombreVentana();
+		    	//menu_Ventana = getNombreVentana();
 		    
 		    	menu_Ventana.dispose();   // Cerrar la ventana settings
 		    	System.out.println("Se ha cerrado la ventana de Menú_BR");
 		    }		    
 		}
+				
+		
 
 //---FUNCIONES---
 	//---SETTERS Y GETTERS---
@@ -84,13 +92,13 @@ public class PersonajeActionPerformed {
 				return this.menu_Ventana;
 			}	
 			
-			public String getNombrePJ() {
+			public static String getNombrePJ() {
 				return nombrePersonaje.getText();
 			}
-			public String getArma() {
+			public static String getArma() {
 		  		return armaSeleccionada;
 		  	}
-			 public String getRaza() {
+			 public static String getRaza() {
 			  	return razaSeleccionada;
 			  }
 

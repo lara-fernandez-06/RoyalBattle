@@ -46,18 +46,20 @@ public class MenuActionPerformed {
 	    	int tamAncho = SettingsActionPerformed.getAncho();
 	    	
 	    	System.out.println("NOMBRE DEL FICHERO: " + getnombreFichero());
-	    	
-	    	
-	    	
+	    		    	
 	    	CreacionPersonaje_BR.CreacionPersonaje_BR(tamAlto,tamAncho);  			 // Abrir la ventana de menú
 	    	
 	    	menu_Ventana = getNombreVentana();
 	    
 	    	menu_Ventana.dispose();   // Cerrar la ventana settings
 	    	System.out.println("Se ha cerrado la ventana de Menú_BR");
+	    	
+	    	
+	    	
 	    }
 	}
-
+	
+	
 //---FUNCIONES---
 	    //---SETTERS Y GETTERS---
 		//Sacar el valor del JFrame actual

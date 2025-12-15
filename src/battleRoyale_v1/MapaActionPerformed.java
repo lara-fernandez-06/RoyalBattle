@@ -19,6 +19,9 @@ import javax.swing.SwingConstants;
 			public BotonNextListener(JLabel texto, JLabel[][] casillas) {
 				this.texto = texto;
 				this.casillas = casillas;
+				
+				
+				
 			}
 
 			public void actionPerformed(ActionEvent e) {
@@ -26,9 +29,9 @@ import javax.swing.SwingConstants;
 				limpiarCasillas(casillas);
 				System.out.println("NEXT");			
 		
-				 CasillaEliminada(1, 1,casillas);
-				 CasillaMoverse(2, 2,casillas);
-				 ponerLoot(3,3,casillas);
+				// CasillaEliminada(1, 1,casillas);
+				// CasillaMoverse(2, 2,casillas);
+				// ponerLoot(3,3,casillas);
 				 
 				Container tablero = casillas[0][0].getParent();
 				tablero.revalidate();
@@ -57,7 +60,9 @@ import javax.swing.SwingConstants;
 		     }
 			
 			public void CasillaEliminada(int fila, int columna,JLabel[][] casillas) {
-				casillas[fila][columna].setBackground(new Color(158, 27, 17, 100)); 
+				
+					casillas[fila][columna].setBackground(new Color(158, 27, 17, 100)); 
+				
 		    }
 
 			public void CasillaMoverse(int fila, int columna,JLabel[][] casillas) {

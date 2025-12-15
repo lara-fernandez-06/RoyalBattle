@@ -2,11 +2,8 @@ package battleRoyale_v1;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 public class SettingsActionPerformed implements ActionListener {
 
@@ -52,7 +49,8 @@ public class SettingsActionPerformed implements ActionListener {
 	
 		public void actionPerformed(ActionEvent e) {
 	    	 //@Override
-	    	CerrarVentanaListener();
+
+	    	CerrarVentanaListener();	
 	    }
 	    
 	    private void CerrarVentanaListener() {	    	
@@ -62,7 +60,8 @@ public class SettingsActionPerformed implements ActionListener {
 	    	 if (patronAncho == null) {
 	                tamAncho = 800;
 	            }
-	    	Menu_BR.Menu_BR(tamAlto,tamAncho);  			 // Abrir la ventana de menú
+	    	 
+	    	 Menu_BR menu_br = new Menu_BR(tamAlto,tamAncho); 			 // Abrir la ventana de menú
 	    	
 	    	
 	    	settingsVentana = getNombreVentana();

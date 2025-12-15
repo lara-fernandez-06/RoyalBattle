@@ -20,10 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class Settings {
-	public static void main(String args[]) {
-		Settings.settingsInicio();
-	}
-	public static void settingsInicio() {	
+	public void settingsInicio() {	
 	//---INICIALIZAR JFRAME---
 			JFrame jFrame = new JFrame("RoyalBattle_Settings");
 			SettingsActionPerformed inicializandoSettings = new SettingsActionPerformed();

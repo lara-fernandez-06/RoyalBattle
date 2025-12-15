@@ -13,7 +13,6 @@ public class Partida {
 	String nombreFichero = new String("datosOrigen.txt");
 	private int numRonda = 0;
 	
-	
 	public Partida() {
 		jugadores = new ArrayList<Personaje>();
 		tablero = new Tablero();
@@ -22,9 +21,16 @@ public class Partida {
 	
 	
 	public void jugarPartida() {
+		
+		//Settings
+		Settings settings = new Settings();
+		SettingsActionPerformed SettingAP = new SettingsActionPerformed();
+		Menu_BR menu_BR = new Menu_BR(SettingsActionPerformed.getAncho() ,SettingsActionPerformed.getAlto());
+		//InicializarInterfaz
+	//	settings.settingsInicio();
 
 		//Inicializamos la partida
-	    inicializarPartida();
+	    //inicializarPartida();
 	    
 	    //LogPartida log = null;
 
@@ -39,7 +45,6 @@ public class Partida {
 
 	        //LÓGICA DE PARTIDA (RONDAS Y MUERTES)
 	        numRonda = 0;
-	        
 	        while (jugadores.size() > 1) { // Rondas
 	            numRonda++;
 	            
@@ -55,6 +60,7 @@ public class Partida {
 	            //log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
 
 	            //Turnos de cada jugador
+	            
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (jugadores.get(i).checkAlive()) {
 	                	System.out.println("---Turno de "+jugadores.get(i).getId());
@@ -108,18 +114,53 @@ public class Partida {
 	}
 
 
-	private void inicializarPartida() {
+	public void inicializarPartida() {
+		//definimos las variables
+		String nombreFichero;
+		char [] arrayNombreFichero;
+		
+		
+		
+		
+		//jugadores.add(crearPersonajeUsuario());
 		//Añadimos a jugadores el personaje creado por el usuario
-		jugadores.add(crearPersonajeUsuario());
-		leerFicheroPartida(nombreFichero);
+		nombreFichero = MenuActionPerformed.getnombreFichero();
+		//nombreFichero = "alonso_Wawa";
+		
+		arrayNombreFichero = nombreFichero.toCharArray();
+		if(nombreFichero == "" || arrayNombreFichero[0] == ' ') {
+			leerFicheroPartida("datosOrigen.txt");
+		}else {
+			leerFicheroPartida(nombreFichero);
+		}
+		crearPersonajeUsuario();
 		imprimirJugadores();
-		//barajar();
+		barajar();
 		imprimirJugadoresStats();
+		
 	}
 	
 	
 	//CREACIÓN DEL PERSONAJE DEL JUGADOR
-	private Personaje crearPersonajeUsuario() {
+	private void crearPersonajeUsuario() {
+		
+		String raza = PersonajeActionPerformed.getRaza();
+		String arma = PersonajeActionPerformed.getArma();
+		String nombre = PersonajeActionPerformed.getNombrePJ();
+		
+		System.out.println("RAZA: "+raza );
+		System.out.println("ARMA: "+arma );
+		System.out.println("NOMBRE: "+nombre );
+		
+		try {
+			this.crearPersonaje(raza, arma, nombre);
+		}catch(ArmaNotExistException armaE) {
+			System.out.println(armaE.getMessage());
+		}catch(PersonajeNotExistException personajeE) {
+			System.out.println(personajeE.getMessage());
+		}
+		
+		/*
 		Scanner escaner = new Scanner(System.in);
 		String rol;
 		boolean error = false;
@@ -144,7 +185,7 @@ public class Partida {
 		}while(error == true);
 		
 		return null;
-		
+		*/
 	}
 	
 	private String escogerNombre(Scanner escaner) {
