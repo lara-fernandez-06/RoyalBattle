@@ -106,6 +106,7 @@ public abstract class Personaje implements AccionesPersonaje {
 					
 				}
 			}else { //si se detecta un enemigo
+				System.out.println(objetivo.getPersonaje().getId()+ "VOY A ATCAR AL ENEMIGO QUE HE VISTO");
 				//miramos si está en rango de ataque
 				if(checkGolpear(tablero, objetivo.getPersonaje())) {
 					this.atacar(objetivo.getPersonaje());
@@ -131,6 +132,7 @@ public abstract class Personaje implements AccionesPersonaje {
 			
 		}else { //he sido atacado
 			objetivo = tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]];
+			System.out.println(objetivo.getPersonaje().getId()+ "HE SIDO ATACADO Y VOY A POR MI ENEMIGO");
 			if(this.checkGolpear(tablero, objetivo.getPersonaje())) {
 				this.atacar(objetivo.getPersonaje());
 			}else {
@@ -252,6 +254,69 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		//updatear la casilla en la que está el personaje
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(this);
+	}
+	
+private void moverCentro(Casilla objetivo, Tablero tablero) {
+		
+		int[] objetivoPosicion; //Una variable donde guardaremos la posicion del objetivo
+		objetivoPosicion = objetivo.getPosicion();
+		
+		//eliminar el personaje de la casilla en el que empieza
+		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(null);
+		
+		for(int i=0; i<this.pasos; i++) {	
+			if(!(this.posicion[0]==objetivoPosicion[0] && this.posicion[1]==objetivoPosicion[1])) {
+				if(this.mirarPaso(objetivoPosicion).getPersonaje() != null  || this.mirarPaso(objetivoPosicion).getPersonaje().checkAlive()==false) {
+					this.moverPaso(objetivoPosicion);
+				}
+			}
+		}
+		
+		//updatear la casilla en la que está el personaje
+		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(this);
+
+	}
+	
+	private Casilla mirarPaso(int[] objetivoPosicion) {
+		int[] diferencia = new int[2]; //Array donde guardamos la diferencia entre personaje y objetivo
+		Casilla aux=new Casilla(this.posicion[0], this.posicion[1]);
+		
+		diferencia[0] = objetivoPosicion[0]-this.posicion[0];
+		diferencia[1] = objetivoPosicion[1]-this.posicion[1];
+		
+		//las comparaciones están en absoluto para que no influya el signo
+		//si está mas lejos en la x que en la y -> se mueve en x
+		if(Math.abs(diferencia[0])>Math.abs(diferencia[1])) {
+			//mira el signo de diferencia y me mueve hacia la derecha o izquierda
+			if(diferencia[0]>0)
+				aux.setPosicionX(aux.getPosicionX()+ 1);
+			if(diferencia[0]<0)
+				aux.setPosicionX(aux.getPosicionX()-1);
+			
+		//si está mas lejos en la y que en la x -> se mueve en y
+		}else if(Math.abs(diferencia[1])>Math.abs(diferencia[0])){
+			//mira el signo de diferencia y se mueve arriba o abajo
+			if(diferencia[1]>0)
+				aux.setPosicionY(aux.getPosicionY()+ 1);
+			if(diferencia[1]<0)
+				aux.setPosicionY(aux.getPosicionY()-1);
+			
+		//si está a la misma distacia -> se mueve en diagonal
+		}else {
+			//se mueve en x
+			if(diferencia[0]>0)
+				aux.setPosicionX(aux.getPosicionX()+ 1);
+			if(diferencia[0]<0)
+				aux.setPosicionX(aux.getPosicionX()-1);
+			
+			//se mueve en y
+			if(diferencia[1]>0)
+				aux.setPosicionY(aux.getPosicionY()+ 1);
+			if(diferencia[1]<0)
+				aux.setPosicionY(aux.getPosicionY()-1);
+		}
+		
+		return aux;
 	}
 	
 	//logica para decidir hacia donde se mueve el personaje

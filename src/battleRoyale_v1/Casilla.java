@@ -55,4 +55,12 @@ public class Casilla {
 	public void setLoot(Loot loot) {
 		this.loot = loot;
 	}
+	
+	public void setPosicionX(int x) {
+		this.posicion[0] = x;
+	}
+	
+	public void setPosicionY(int y) {
+		this.posicion[1] = y;
+	}
 }
