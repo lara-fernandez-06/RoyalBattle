@@ -51,7 +51,6 @@ public abstract class Personaje implements AccionesPersonaje {
 				}
 				
 				//Comprobación si mi enemigo ha muerto (si me habia atacado previamente)
-				//CHG: esto ahora se hace aunque no hayas sido atacado de antes
 				if(enemigo.getVida() <= 0) {
 						this.heSidoAtacado = false; //El enemigo ha muerto
 						this.posicionEnemiga[0]=0;
@@ -59,29 +58,24 @@ public abstract class Personaje implements AccionesPersonaje {
 					System.out.println(this.id +" ha matado a "+ enemigo.id);
 				}
 				
-			}else {
-				System.out.println(this.id + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN MUERTO EL CUAL ES: " + enemigo.id);
 			}
-		}else {
-			System.out.println(this.id + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN NULL");
 		}
 	}
 
 	public void quitarVida(int dmg) {
 		this.vida -= dmg;
-		System.out.println(this.id + " ESTA MUERIENDO AAAAAA "+dmg);
+		System.out.println(this.id + " ha sufrido "+dmg+" de danio");
 	}
 
 	public boolean checkBuff() {
 		return rol.getId() == arma.id;
 	}
 	
-	//Aqui he cambiado la lógica para que devuelva casillas en vez de booleanos
 	public void checkSurroundings(Tablero tablero) {
 		
 		Casilla objetivo; //Sea enemigo o loot
 		
-		//comprobar que el que me ha atacado sigue vivo
+		//comprobar que el que me ha atacado sigue vivo. Si no lo está, hago turno normal
 		if(this.heSidoAtacado && (tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]].getPersonaje()==null || tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]].getPersonaje().checkAlive()==false) ) {
 			this.heSidoAtacado=false;
 		}
@@ -94,21 +88,21 @@ public abstract class Personaje implements AccionesPersonaje {
 					
 					objetivo = tablero.casillas[5][5]; //nos vamos al centro
 					this.moverCentro(objetivo, tablero); 
-					System.out.println(this.id + " SE ESTA MOVIENDO HACIA EL CENTRO");
+					System.out.println(this.id + " se está moviendo hacia el centro ");
 					
 				}else { //hay loot y vamos hacia allí
-					System.out.println(this.id + " SE ESTA MOVIENDO HACIA UN LOOT " + objetivo.getLoot().getTipo());
+					System.out.println(this.id + " se está moviendo hacia el loot " + objetivo.getLoot().getTipo()+" que ha visto");
 					moverLoot(objetivo, tablero);
 					if(this.posicion[0] == objetivo.getPosicionX() && this.posicion[1] == objetivo.getPosicionY()) {
 						objetivo.getLoot().aplicar(this);
 						objetivo.setLoot(null);
-						System.out.println(this.id + " HA COGIDO UN LOOT");
+						System.out.println(this.id + " ha recogido loot");
 					}
 					
 				}
 			}else { //si se detecta un enemigo
 							
-				System.out.println(objetivo.getPersonaje().getId()+ " VOY A ATACAR AL ENEMIGO QUE HE VISTO");
+				System.out.println(objetivo.getPersonaje().getId()+ " ha sido avistado");
 				//miramos si está en rango de ataque
 				if(checkGolpear(tablero, objetivo.getPersonaje())) { //si se puede atacar
 					this.atacar(objetivo.getPersonaje());
@@ -116,17 +110,18 @@ public abstract class Personaje implements AccionesPersonaje {
 					objetivo.getPersonaje().posicionEnemiga[0] = this.posicion[0];
 					objetivo.getPersonaje().posicionEnemiga[1] = this.posicion[1];
 					objetivo.getPersonaje().heSidoAtacado = true;
-					System.out.println(objetivo.getPersonaje().getId()+ " ha sido atacado y lo sabe");
+					System.out.println(objetivo.getPersonaje().getId()+ " ha sido atacado");
 				}else { //si no tiene rango, se mueve hacia el enemigo
 					this.moverEnemigo(objetivo, tablero);
 					//como puede ser que aunque se haya movido no pueda atacar, volvemos a mirarlo
 					//si está en rango, golpea, si no, se acaba su turno
 					if(this.checkGolpear(tablero, objetivo.getPersonaje())){
 						this.atacar(objetivo.getPersonaje());
+						System.out.println("El enemigo "+objetivo.getPersonaje().getId()+" está en el rango de "+this.id+" después de moverse y ha sido atacado");
 						objetivo.getPersonaje().posicionEnemiga[0] = this.posicion[0];
 						objetivo.getPersonaje().posicionEnemiga[1] = this.posicion[1];
 						objetivo.getPersonaje().heSidoAtacado = true;
-					}//si no puede se acaba el turno
+					}else System.out.println("El enemigo sigue fuera de rango");
 				}	
 				
 					
@@ -135,7 +130,7 @@ public abstract class Personaje implements AccionesPersonaje {
 			
 		}else { //he sido atacado
 			objetivo = tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]];
-			System.out.println(objetivo.getPersonaje().getId()+ " HE SIDO ATACADO Y VOY A POR MI ENEMIGO");
+			System.out.println(objetivo.getPersonaje().getId()+ " ha sido atacado y va a contraatacar");
 			if(this.checkGolpear(tablero, objetivo.getPersonaje())) {
 				this.atacar(objetivo.getPersonaje());
 			}else {
@@ -150,26 +145,17 @@ public abstract class Personaje implements AccionesPersonaje {
 			}
 		}
 		
-		
-		//TODO Comprobar si el rango del arma es suficiente como para darle al enemigo, si no lo es, sse mueve hacia el
-		
 	}
 	
-	//deberiamos devolver donde está el enemigo para que se pueda mover hacia el, deberiamos devolver la casilla entera??
 	private Casilla checkEnemies(Tablero tablero) {
-		/*Si encuentra enemigos devuelve true, si encuentra multiples que vaya a por el que más cerca está, si hay multiples en una distancia igual, que vaya a por el que menos vida tenga, 
-		y si tienen la misma vida pues que elija al azar
-		Si no false*/
 		
 		int i=0, j=0;
 		
 		//inicializamos i a la posicion - la vision y recorrerá hasta la posición + la visión
 		//los math .max y .min están para clampear (y que si el personaje esté en la casilla 0,1 no intente leer la -1,0)
-		//TODO: esto solo funciona con el tablero completo. Habría que mirar como hacerlo, quizá comprobando la condicón de isDestroyed
 		//pero aun así el clampeo funciona para que no haga IndexOutOfBounds
 		for(i=Math.max(posicion[0]-this.vision, 0); i<Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
 			for(j=Math.max(posicion[1]-this.vision, 0); j<Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
-				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != this) {
 						//hay que mirar que haya un personaje y que no esté muerto
@@ -180,7 +166,7 @@ public abstract class Personaje implements AccionesPersonaje {
 			}
 		}
 		
-		return null; //donde llamemos a esta función hay que poner un if(checkEnemies == null), y solo hacer algo si no lo es (pero no comparar con true/false)
+		return null; 
 	}
 
 	private Casilla checkLoot(Tablero tablero) {
@@ -189,7 +175,6 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		for(i=Math.max(posicion[0]-this.vision, 0); i<Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
 			for(j=Math.max(posicion[1]-this.vision, 0); j<Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
-				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != this) {
 						if(tablero.casillas[i][j].getLoot() != null) return tablero.casillas[i][j]; //si la casilla tiene loot, la devuelve la casilla
@@ -207,11 +192,9 @@ public abstract class Personaje implements AccionesPersonaje {
 		int i=0, j=0;
 		for(i=Math.max(posicion[0]-this.arma.getRango(), 0); i<Math.min(this.posicion[0]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); i++) {
 			for(j=Math.max(posicion[1]-this.arma.getRango(), 0); j<Math.min(this.posicion[1]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); j++) {
-				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != this) {
 						if(tablero.casillas[i][j].getPersonaje() == enemigo) {
-							System.out.println("-------------------------------------------ENEMIGO ENCONTRADO--------------------------------------------");
 							return true; //si le puede dar al enemigo del objetivo devulve true
 						}
 					}
@@ -220,7 +203,6 @@ public abstract class Personaje implements AccionesPersonaje {
 			}
 		}
 		
-		System.out.println("-------------------------------------------NO SABEMOS DONDE ESTA--------------------------------------------");
 		return false; //si no puede dar al personaje devuelve false
 	}
 	
@@ -236,9 +218,8 @@ public abstract class Personaje implements AccionesPersonaje {
 			if(!(this.posicion[0]==objetivoPosicion[0] && this.posicion[1]==objetivoPosicion[1])) {
 				int[] aux = mirarPaso(objetivoPosicion).getPosicion();
 				if(tablero.casillas[aux[0]][aux[1]].getPersonaje() == null  || tablero.casillas[aux[0]][aux[1]].getPersonaje().checkAlive()==false) {
-					System.out.println("***********************************HA PARADO PORQUE HAY ALGUIEN*****************************************************");
 					this.moverPaso(objetivoPosicion);
-				}
+				}else System.out.println("Ha parado porque hay alguien");
 			}
 		}
 		
@@ -260,9 +241,8 @@ public abstract class Personaje implements AccionesPersonaje {
 				//aunque está enfocado en un solo enemigo, si se encuentra con otro para
 				int[] aux = mirarPaso(objetivoPosicion).getPosicion();
 				if(tablero.casillas[aux[0]][aux[1]].getPersonaje() == null  || tablero.casillas[aux[0]][aux[1]].getPersonaje().checkAlive()==false) {
-					System.out.println("***********************************HA PARADO PORQUE HAY ALGUIEN*****************************************************");
 					this.moverPaso(objetivoPosicion);
-				}
+				}else System.out.println("Ha parado porque hay alguien");
 			}
 		}
 		
@@ -282,10 +262,6 @@ private void moverCentro(Casilla objetivo, Tablero tablero) {
 			if(!(this.posicion[0]==objetivoPosicion[0] && this.posicion[1]==objetivoPosicion[1])) {
 				int[] aux = mirarPaso(objetivoPosicion).getPosicion();
 				if(tablero.casillas[aux[0]][aux[1]].getPersonaje() == null  || tablero.casillas[aux[0]][aux[1]].getPersonaje().checkAlive()==false) {
-					/////////////////////////////////////////////////////////////////////////////////////////////////////////
-					if(this.mirarPaso(objetivoPosicion).getPersonaje() == null) System.out.println("------------------------------------------HA SIDO PORQUE ES NULL--------------------------------------------------");
-					else if(this.mirarPaso(objetivoPosicion).getPersonaje().checkAlive()==false) System.out.println("------------------------------------------HA SIDO PORQUE ESTA MUERTO--------------------------------------------------");
-					/////////////////////////////////////////////////////////////////////////////////////////////////////////
 					this.moverPaso(objetivoPosicion);
 				}
 			}
