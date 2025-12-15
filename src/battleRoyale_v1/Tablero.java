@@ -78,7 +78,7 @@ public class Tablero {
 		for (int i = 0; i < LADOTABLERO; i++) {
 	        for (int j = 0; j < LADOTABLERO; j++) {
 	            if (this.casillas[i][j].getPersonaje() != null){
-	                System.out.print("[" + letraPersonaje(this.casillas[i][j]) + letraArma(this.casillas[i][j]) + "]");
+	                System.out.print("[" + casillas[i][j].getPersonaje().getId() + "]");
 	            } else if (this.casillas[i][j].getLoot() != null) {
 	            	System.out.print("[L]");
 	            } else if(this.casillas[i][j].getIsDestroyed() == true){
@@ -126,7 +126,7 @@ public class Tablero {
 			return 'e';
 		}
 	}
-	
+	/*
 	public void checkCharactersPosition(ArrayList<Personaje> jugadores) {
 		for(int i=0; i < jugadores.size(); i++) {
 			int[] posicionJugador = jugadores.get(i).getPosicion();
@@ -138,7 +138,7 @@ public class Tablero {
 			Casilla casilla = casillas[x][y];
 			casilla.setPersonaje(jugadores.get(i));
 		}
-	}
+	}*/
 	
 	public int getLongitudTablero() {
 		return this.LADOTABLERO;

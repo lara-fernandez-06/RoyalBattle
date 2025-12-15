@@ -9,7 +9,7 @@ public class Lentes extends Loot {
 
 	@Override
     public void aplicar(Personaje p) {
-       p.setVision(p.getVision() + 15); //aumenta la vision en 15
+       p.setVision(p.getVision() + 1); //aumenta la vision en 15
     }
 
 }

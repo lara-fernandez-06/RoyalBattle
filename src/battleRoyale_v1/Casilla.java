@@ -20,7 +20,6 @@ public class Casilla {
 	
 	//getters
 	public boolean getIsDestroyed() {
-		if(personaje!=null)personaje.quitarVida(10);
 		return this.isDestroyed;
 	}
 	

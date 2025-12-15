@@ -13,12 +13,9 @@ public abstract class Personaje implements AccionesPersonaje {
 	private boolean buff;
 	private int[] posicionEnemiga;
 	private boolean heSidoAtacado;
-	private static int counter;
-	
-	//al final vamos a hacer el roll for attack??
-	
+	private static int counter;	
 	private int[] posicion; //cambio de la matriz de ints a un array que va a ser de dos, el [0] para la x y el [1] para la y
-	//Lara los getters y setters te los he `puesto abajo con el resto
+	//Lara los getters y setters te los he puesto abajo con el resto
 	
 	
 	//Falta gestionar el buff
@@ -68,6 +65,7 @@ public abstract class Personaje implements AccionesPersonaje {
 
 	public void quitarVida(int dmg) {
 		this.vida -= dmg;
+		System.err.println(this.id + " ESTA MUERIENDO AAAAAA "+dmg);
 	}
 
 	public boolean checkBuff() {
@@ -80,34 +78,61 @@ public abstract class Personaje implements AccionesPersonaje {
 		Casilla objetivo; //Sea enemigo o loot
 		
 		if(this.heSidoAtacado == false) {
-			if((objetivo = checkEnemies(tablero)) == null) {
-				if((objetivo = checkLoot(tablero)) == null) {
-					objetivo = tablero.casillas[5][5];
-					this.moverLoot(objetivo, tablero);
+			
+			if((objetivo = checkEnemies(tablero)) == null) { //si no hay enemigos
+				
+				if((objetivo = checkLoot(tablero)) == null) { //si no hay loot
+					
+					objetivo = tablero.casillas[5][5]; //nos vamos al centro
+					this.moverLoot(objetivo, tablero); 
 					System.out.println(this.toStringWithStats() + " SE ESTA MOVIENDO HACIA EL CENTRO");
-				}else {
+					
+				}else { //hay loot y vamos hacia allí
+					System.out.println(this.toStringWithStats() + " SE ESTA MOVIENDO HACIA UN LOOT" + objetivo.getLoot().getTipo());
 					moverLoot(objetivo, tablero);
 					if(this.posicion[0] == objetivo.getPosicionX() && this.posicion[1] == objetivo.getPosicionY()) {
-						//TODO método para ejecutar el buff
+						objetivo.getLoot().aplicar(this);
 						objetivo.setLoot(null);
 						System.out.println(this.toStringWithStats() + " HA COGIDO UN LOOT");
 					}
-					System.out.println(this.toStringWithStats() + " SE ESTA MOVIENDO HACIA UN LOOT");
+					
 				}
-			}else {
+			}else { //si se detecta un enemigo
+				//miramos si está en rango de ataque
+				if(checkGolpear(tablero, objetivo.getPersonaje())) {
+					this.atacar(objetivo.getPersonaje());
+					//después de ser atacado, el enemigo se da cuenta
+					objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
+					objetivo.getPersonaje().heSidoAtacado = true;
+				}else { //si no tiene rango, se mueve hacia el enemigo
+					this.moverEnemigo(objetivo, tablero);
+					//como puede ser que aunque se haya movido no pueda atacar, volvemos a mirarlo
+					//si está en rango, golpea, si no, se acaba su turno
+					if(this.checkGolpear(tablero, objetivo.getPersonaje())){
+						this.atacar(objetivo.getPersonaje());
+						objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
+						objetivo.getPersonaje().heSidoAtacado = true;
+					}
+				}
 				
+				
+					
+				
+			}
+			
+		}else { //he sido atacado
+			objetivo = tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]];
+			if(this.checkGolpear(tablero, objetivo.getPersonaje())) {
+				this.atacar(objetivo.getPersonaje());
+			}else {
 				this.moverEnemigo(objetivo, tablero);
-				if(this.checkGolpear(tablero)) {
+				//como puede ser que aunque se haya movido no pueda atacar, volvemos a mirarlo
+				//si está en rango, golpea, si no, se acaba su turno
+				if(this.checkGolpear(tablero, objetivo.getPersonaje())){
 					this.atacar(objetivo.getPersonaje());
 					objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
 					objetivo.getPersonaje().heSidoAtacado = true;
 				}
-			}
-		}else {
-			objetivo = tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]];
-			this.moverEnemigo(objetivo, tablero);
-			if(this.checkGolpear(tablero)) {
-				this.atacar(objetivo.getPersonaje());
 			}
 		}
 		
@@ -133,7 +158,8 @@ public abstract class Personaje implements AccionesPersonaje {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != this) {
-						if(tablero.casillas[i][j].getPersonaje() != null) return tablero.casillas[i][j]; //si hay un personaje en la casilla, devuelve la casilla
+						//hay que mirar que haya un personaje y que no esté muerto
+						if(tablero.casillas[i][j].getPersonaje() != null && tablero.casillas[i][j].getPersonaje().checkAlive()==true) return tablero.casillas[i][j]; //si hay un personaje en la casilla, devuelve la casilla
 					}
 				}
 				
@@ -163,14 +189,14 @@ public abstract class Personaje implements AccionesPersonaje {
 		return null; // si llega hasta aqui es que no ha encontrado nada, asi que devuelve null
 	}
 	
-	public boolean checkGolpear(Tablero tablero) {
+	public boolean checkGolpear(Tablero tablero, Personaje enemigo) {
 		int i=0, j=0;
 		for(i=Math.max(posicion[0]-this.arma.getRango(), 0); i<Math.min(this.posicion[0]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); i++) {
 			for(j=Math.max(posicion[1]-this.arma.getRango(), 0); j<Math.min(this.posicion[1]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != this) {
-						if(tablero.casillas[i][j].getPersonaje() != null) return true; //si le puede dar devulve true
+						if(tablero.casillas[i][j].getPersonaje() == enemigo) return true; //si le puede dar al enemigo del objetivo devulve true
 					}
 				}
 				
@@ -189,8 +215,11 @@ public abstract class Personaje implements AccionesPersonaje {
 		//eliminar el personaje de la casilla en el que empieza
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(null);
 		
-		for(int i=0; i<this.pasos; i++) {			
-			this.moverPaso(objetivoPosicion);
+		for(int i=0; i<this.pasos; i++) {	
+			if(!(this.posicion[0]==objetivoPosicion[0] && this.posicion[1]==objetivoPosicion[1])) {
+				this.moverPaso(objetivoPosicion);
+				if(this.id==0) tablero.mostrarTablero(); //TEMPORAL!!!!!!
+			}
 		}
 		
 		//updatear la casilla en la que está el personaje
@@ -207,8 +236,9 @@ public abstract class Personaje implements AccionesPersonaje {
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(null);
 		
 		for(int i=0; i<this.pasos; i++) {
-			if(this.checkGolpear(tablero) == false) {
+			if(this.checkGolpear(tablero, objetivo.getPersonaje()) == false) {
 				this.moverPaso(objetivoPosicion);
+				if(this.id==0) tablero.mostrarTablero();//TEMPORAL!!!!!!!
 			}
 		}
 		
@@ -261,6 +291,12 @@ public abstract class Personaje implements AccionesPersonaje {
 	public boolean checkAlive() {
 		if(this.vida>0) return true;
 		else return false;
+	}
+	
+
+	public void checkTormenta(Tablero tablero) {
+		if(tablero.casillas[this.posicion[0]][this.posicion[1]].getIsDestroyed() == true) this.quitarVida(5);
+		
 	}
 	
 	//toString

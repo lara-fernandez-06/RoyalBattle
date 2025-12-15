@@ -26,12 +26,12 @@ public class Partida {
 		//Inicializamos la partida
 	    inicializarPartida();
 	    
-	    LogPartida log = null;
+	    //LogPartida log = null;
 
-	    try {
+	    //try {
 	        //Creación del log
-	        log = new LogPartida("resultados.log");
-	        log.log(LocalDateTime.now() + " | INFO | Empieza la partida. Jugadores iniciales: " + jugadores.size());
+	        //log = new LogPartida("resultados.log");
+	        //log.log(LocalDateTime.now() + " | INFO | Empieza la partida. Jugadores iniciales: " + jugadores.size());
 		    
 	        //Inicializamos el tablero
 	        tablero.inicializarTablero(this.jugadores);
@@ -44,13 +44,13 @@ public class Partida {
 	            numRonda++;
 	            
 	            if(numRonda != 0) {
-		            if((numRonda%2 == 0)&&numRonda<8) {
+		            if((numRonda%2 == 0)&&numRonda<10) {
 		            	tablero.encogerTablero(numRonda);
 		            }
 	            }
 	            
 	            //Log: inicio de ronda
-	            log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
+	            //log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
 
 	            //Turnos de cada jugador
 	            this.imprimirJugadoresStats();;
@@ -58,6 +58,7 @@ public class Partida {
 	            System.out.printf("MOVIMINETOS Y ATAQUES\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (jugadores.get(i).checkAlive()) {
+	                	jugadores.get(i).checkTormenta(tablero);
 	                    jugadores.get(i).checkSurroundings(tablero);
 	                }
 	            }
@@ -66,7 +67,7 @@ public class Partida {
 	            System.out.printf("MUERTOS:\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (!jugadores.get(i).checkAlive()) {
-	                    log.log(LocalDateTime.now() + " | INFO | " + jugadores.get(i).getNombre() + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
+	                    //log.log(LocalDateTime.now() + " | INFO | " + jugadores.get(i).getNombre() + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
 	                    System.out.println("Este personaje ha muerto: " + jugadores.get(i).toString());
 	                    tablero.casillas[jugadores.get(i).getPosicionX()][jugadores.get(i).getPosicionY()].setPersonaje(null);
 	                    jugadores.remove(i); //Eliminamos muerto del arraylist
@@ -89,14 +90,14 @@ public class Partida {
 	        //Log: ganador
 	        if (jugadores.size() == 1) {
 	        	System.out.println("El ganador ha sido: " + jugadores.getFirst().toStringWithStats());
-	            log.log(LocalDateTime.now() + " | INFO | GANADOR: " + jugadores.get(0).getNombre() + " [ID: " + jugadores.get(0).getId() + "]");
+	            //log.log(LocalDateTime.now() + " | INFO | GANADOR: " + jugadores.get(0).getNombre() + " [ID: " + jugadores.get(0).getId() + "]");
 	        }
 
-	    } catch (IOException e) {
+	    /*} catch (IOException e) {
 	        e.printStackTrace();
 	    } finally {
-	        if (log != null) log.cerrar();
-	    }
+	       if (log != null) log.cerrar();
+	    }*/
 	}
 
 
