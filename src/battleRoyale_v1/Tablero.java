@@ -81,7 +81,10 @@ public class Tablero {
 	                System.out.print("[" + letraPersonaje(this.casillas[i][j]) + letraArma(this.casillas[i][j]) + "]");
 	            } else if (this.casillas[i][j].getLoot() != null) {
 	            	System.out.print("[L]");
-	            } else {
+	            } else if(this.casillas[i][j].getIsDestroyed() == true){
+	            	System.out.print("[X]");
+	            }else {
+	            
 	            	System.out.print("[ ]");
 	            }
 	        }
@@ -139,5 +142,37 @@ public class Tablero {
 	
 	public int getLongitudTablero() {
 		return this.LADOTABLERO;
+	}
+	
+	public void encogerTablero(int numRonda) {
+		int borrar = (numRonda/2)-1;
+		
+		//Arriba
+		for(int i=0; i<=borrar; i++) {
+			for(int j=0; j<this.LADOTABLERO; j++) {
+				casillas[i][j].setIsDestroyed(true);
+			}
+		}
+		
+		//Abajo
+		for(int i=this.LADOTABLERO-1; i>=this.LADOTABLERO-borrar-1; i--) {
+			for(int j=0; j<this.LADOTABLERO; j++) {
+				casillas[i][j].setIsDestroyed(true);
+			}
+		}
+		
+		//Izquierda
+		for(int i=0; i<=borrar; i++) {
+			for(int j=0; j<this.LADOTABLERO; j++) {
+				casillas[j][i].setIsDestroyed(true);
+			}
+		}
+		
+		//Derecha
+		for(int i=this.LADOTABLERO-1; i>=this.LADOTABLERO-borrar-1; i--) {
+			for(int j=0; j<this.LADOTABLERO; j++) {
+				casillas[j][i].setIsDestroyed(true);
+			}
+		}
 	}
 }

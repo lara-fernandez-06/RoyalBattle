@@ -43,6 +43,9 @@ public class Partida {
 	        while (jugadores.size() > 1) { // Rondas
 	            numRonda++;
 	            
+	            if((numRonda%2 == 0)&&numRonda<8) {
+	            	tablero.encogerTablero(numRonda);
+	            }
 	            //Log: inicio de ronda
 	            log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
 

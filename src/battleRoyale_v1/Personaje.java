@@ -117,8 +117,8 @@ public abstract class Personaje implements AccionesPersonaje {
 		//los math .max y .min están para clampear (y que si el personaje esté en la casilla 0,1 no intente leer la -1,0)
 		//TODO: esto solo funciona con el tablero completo. Habría que mirar como hacerlo, quizá comprobando la condicón de isDestroyed
 		//pero aun así el clampeo funciona para que no haga IndexOutOfBounds
-		for(i=Math.max(posicion[0]-this.vision, 0); i<Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
-			for(j=Math.max(posicion[1]-this.vision, 0); j<Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
+		for(i=Math.max(posicion[0]-this.vision, 0); i<=Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
+			for(j=Math.max(posicion[1]-this.vision, 0); j<=Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != null) return tablero.casillas[i][j]; //si hay un personaje en la casilla, devuelve la casilla
@@ -134,8 +134,8 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		int i=0, j=0;
 		
-		for(i=Math.max(posicion[0]-this.vision, 0); i<Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
-			for(j=Math.max(posicion[1]-this.vision, 0); j<Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
+		for(i=Math.max(posicion[0]-this.vision, 0); i<=Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
+			for(j=Math.max(posicion[1]-this.vision, 0); j<=Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getLoot() != null) return tablero.casillas[i][j]; //si la casilla tiene loot, la devuelve la casilla
@@ -150,8 +150,8 @@ public abstract class Personaje implements AccionesPersonaje {
 	
 	public boolean checkGolpear(Tablero tablero) {
 		int i=0, j=0;
-		for(i=Math.max(posicion[0]-this.arma.getRango(), 0); i<Math.min(this.posicion[0]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); i++) {
-			for(j=Math.max(posicion[1]-this.arma.getRango(), 0); j<Math.min(this.posicion[1]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); j++) {
+		for(i=Math.max(posicion[0]-this.arma.getRango(), 0); i<=Math.min(this.posicion[0]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); i++) {
+			for(j=Math.max(posicion[1]-this.arma.getRango(), 0); j<=Math.min(this.posicion[1]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != null) return true; //si le puede dar devulve true
