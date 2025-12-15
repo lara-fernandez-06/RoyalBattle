@@ -27,11 +27,11 @@ public class Casilla {
 		return this.posicion;
 	}
 	
-	public int getPosicionX() { //Setter
+	public int getPosicionX() {
 		return this.posicion[0];
 	}
 	
-	public int getPosicionY() { //Setters
+	public int getPosicionY() {
 		return this.posicion[1];
 	}
 	

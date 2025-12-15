@@ -4,7 +4,6 @@ public class Lentes extends Loot {
 
 	public Lentes(String nombre, TipoLoot tipo) {
 		super(nombre, tipo);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

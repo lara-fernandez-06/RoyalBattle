@@ -23,6 +23,4 @@ public class LogPartida {
     public void cerrar() {
         pw.close();
     }
-	
-
 }

@@ -5,9 +5,8 @@ public abstract class Arma {
 	//Atributos
 	private TipoArma tipoArma;
 	private int dmg;
-	//private int checkingCOSITAS;
 	private int rango;
-	private int attackChance;
+	//private int attackChance;
 	public int id;
 	
 	//Constructor
@@ -15,7 +14,7 @@ public abstract class Arma {
 		this.tipoArma = tipoArma;
 		this.dmg = dmg;
 		this.rango = rango;
-		this.attackChance = 0;
+		//this.attackChance = 0;
 		this.id = tipoArma.getId();
 	}
 	
