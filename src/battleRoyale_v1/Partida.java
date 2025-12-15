@@ -55,22 +55,20 @@ public class Partida {
 	            log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
 
 	            //Turnos de cada jugador
-	            
+	            System.out.println();
+	            System.out.printf("MOVIMINETOS Y ATAQUES\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (jugadores.get(i).checkAlive()) {
-	                	System.out.println("---Turno de "+jugadores.get(i).getId());
+	                	System.out.println("-----------Turno de "+jugadores.get(i).getId());
 	                	tablero.casillas[this.jugadores.get(i).getPosicionX()][this.jugadores.get(i).getPosicionY()].setPersonaje(jugadores.get(i));
-	                	System.out.println(jugadores.get(i).toStringWithStats());
-	                	System.out.println("En la casilla de " +jugadores.get(i).getId()+" hay "+ tablero.casillas[jugadores.get(i).getPosicionX()][jugadores.get(i).getPosicionY()].getPersonaje());
-	        		    jugadores.get(i).checkTormenta(tablero);
+	                	System.out.println("Principio del turno: "+jugadores.get(i).toStringWithStats());
+	                	jugadores.get(i).checkTormenta(tablero);
 	                    jugadores.get(i).checkSurroundings(tablero);
-	                	System.out.println(jugadores.get(i).toStringWithStats());
+	                	System.out.println("Final del turno: "+jugadores.get(i).toStringWithStats());
 	                }
 	            }
 	            this.imprimirJugadoresStats();
-	            System.out.println();
-	            System.out.printf("MOVIMINETOS Y ATAQUES\n\n");
-
+	            
 	            //Eliminamos jugadores muertos y logueamos
 	            System.out.printf("MUERTOS:\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
@@ -121,10 +119,14 @@ public class Partida {
 		nombreFichero = MenuActionPerformed.getnombreFichero();
 		
 		arrayNombreFichero = nombreFichero.toCharArray();
-		if(nombreFichero == "" || arrayNombreFichero[0] == ' ' || nombreFichero == null) {
-			leerFicheroPartida("datosOrigen.txt");
-		}else {
-			leerFicheroPartida(nombreFichero);
+		try {
+			if(nombreFichero == null || nombreFichero == "" || arrayNombreFichero[0] == ' ') {
+				leerFicheroPartida("datosOrigen.txt");
+			}else {
+				leerFicheroPartida(nombreFichero);
+			}
+		}catch(Exception e) {
+			nombreFichero="datosOrigen.txt";
 		}
 		crearPersonajeUsuario();
 		imprimirJugadores();
