@@ -89,7 +89,7 @@ public class Tablero {
 	            }
 	        }
 	        
-	        System.out.println();
+	        System.out.printf("\n\n");
 	    }
 	}
 	

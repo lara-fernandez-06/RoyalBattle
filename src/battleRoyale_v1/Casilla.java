@@ -28,6 +28,14 @@ public class Casilla {
 		return this.posicion;
 	}
 	
+	public int getPosicionX() { //Setter
+		return this.posicion[0];
+	}
+	
+	public int getPosicionY() { //Setters
+		return this.posicion[1];
+	}
+	
 	public Personaje getPersonaje() {
 		return this.personaje;
 	}

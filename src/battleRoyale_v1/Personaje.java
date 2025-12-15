@@ -41,11 +41,15 @@ public abstract class Personaje implements AccionesPersonaje {
 	
 	public void atacar(Personaje enemigo) {
 		if(enemigo != null) {
-			if(enemigo.vida > 0) {
+			if(enemigo.getVida() > 0) {
 				if(this.buff == true) {
+					System.out.println(this.toStringWithStats() + " esta atacando a " + enemigo.toStringWithStats() + " con este daño: " + arma.getDmg() * 2);
 					enemigo.quitarVida(arma.getDmg() * 2);
+					System.out.println("Enemigo después de ser atacado:" + enemigo.toStringWithStats());
 				} else {
 					enemigo.quitarVida(arma.getDmg());
+					System.out.println(this.toString() + " esta atacando a " + enemigo.toString() + " con este daño: " + arma.getDmg());
+					System.out.println("Enemigo después de ser atacado:" + enemigo.toStringWithStats());
 				}
 				
 				//Comprobación si mi enemigo ha muerto
@@ -54,7 +58,11 @@ public abstract class Personaje implements AccionesPersonaje {
 						this.heSidoAtacado = false; //El enemigo ha muerto
 					}
 				}
+			}else {
+				System.out.println(this.toString() + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN MUERTO EL CUAL ES: " + enemigo.toStringWithStats());
 			}
+		}else {
+			System.out.println(this.toString() + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN NULL");
 		}
 	}
 
@@ -76,12 +84,15 @@ public abstract class Personaje implements AccionesPersonaje {
 				if((objetivo = checkLoot(tablero)) == null) {
 					objetivo = tablero.casillas[5][5];
 					this.moverLoot(objetivo, tablero);
+					System.out.println(this.toStringWithStats() + " SE ESTA MOVIENDO HACIA EL CENTRO");
 				}else {
 					moverLoot(objetivo, tablero);
-					if(this.posicion == objetivo.getPosicion()) {
+					if(this.posicion[0] == objetivo.getPosicionX() && this.posicion[1] == objetivo.getPosicionY()) {
 						//TODO método para ejecutar el buff
 						objetivo.setLoot(null);
+						System.out.println(this.toStringWithStats() + " HA COGIDO UN LOOT");
 					}
+					System.out.println(this.toStringWithStats() + " SE ESTA MOVIENDO HACIA UN LOOT");
 				}
 			}else {
 				
@@ -117,11 +128,13 @@ public abstract class Personaje implements AccionesPersonaje {
 		//los math .max y .min están para clampear (y que si el personaje esté en la casilla 0,1 no intente leer la -1,0)
 		//TODO: esto solo funciona con el tablero completo. Habría que mirar como hacerlo, quizá comprobando la condicón de isDestroyed
 		//pero aun así el clampeo funciona para que no haga IndexOutOfBounds
-		for(i=Math.max(posicion[0]-this.vision, 0); i<=Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
-			for(j=Math.max(posicion[1]-this.vision, 0); j<=Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
+		for(i=Math.max(posicion[0]-this.vision, 0); i<Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
+			for(j=Math.max(posicion[1]-this.vision, 0); j<Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
-					if(tablero.casillas[i][j].getPersonaje() != null) return tablero.casillas[i][j]; //si hay un personaje en la casilla, devuelve la casilla
+					if(tablero.casillas[i][j].getPersonaje() != this) {
+						if(tablero.casillas[i][j].getPersonaje() != null) return tablero.casillas[i][j]; //si hay un personaje en la casilla, devuelve la casilla
+					}
 				}
 				
 			}
@@ -134,11 +147,13 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		int i=0, j=0;
 		
-		for(i=Math.max(posicion[0]-this.vision, 0); i<=Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
-			for(j=Math.max(posicion[1]-this.vision, 0); j<=Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
+		for(i=Math.max(posicion[0]-this.vision, 0); i<Math.min(this.posicion[0]+this.vision, (tablero.getLongitudTablero()-1)); i++) {
+			for(j=Math.max(posicion[1]-this.vision, 0); j<Math.min(this.posicion[1]+this.vision, (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
-					if(tablero.casillas[i][j].getLoot() != null) return tablero.casillas[i][j]; //si la casilla tiene loot, la devuelve la casilla
+					if(tablero.casillas[i][j].getPersonaje() != this) {
+						if(tablero.casillas[i][j].getLoot() != null) return tablero.casillas[i][j]; //si la casilla tiene loot, la devuelve la casilla
+					}
 				}
 				
 			}
@@ -150,11 +165,13 @@ public abstract class Personaje implements AccionesPersonaje {
 	
 	public boolean checkGolpear(Tablero tablero) {
 		int i=0, j=0;
-		for(i=Math.max(posicion[0]-this.arma.getRango(), 0); i<=Math.min(this.posicion[0]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); i++) {
-			for(j=Math.max(posicion[1]-this.arma.getRango(), 0); j<=Math.min(this.posicion[1]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); j++) {
+		for(i=Math.max(posicion[0]-this.arma.getRango(), 0); i<Math.min(this.posicion[0]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); i++) {
+			for(j=Math.max(posicion[1]-this.arma.getRango(), 0); j<Math.min(this.posicion[1]+this.arma.getRango(), (tablero.getLongitudTablero()-1)); j++) {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
-					if(tablero.casillas[i][j].getPersonaje() != null) return true; //si le puede dar devulve true
+					if(tablero.casillas[i][j].getPersonaje() != this) {
+						if(tablero.casillas[i][j].getPersonaje() != null) return true; //si le puede dar devulve true
+					}
 				}
 				
 			}
@@ -249,11 +266,11 @@ public abstract class Personaje implements AccionesPersonaje {
 	//toString
 	@Override
 	public String toString() {
-		return "ID: " + this.id + "Nombre: " + this.nombre + " Rol: " + this.rol.toString() + " Arma: " + this.arma.toString();
+		return "ID: " + this.id + " Nombre: " + this.nombre + " Rol: " + this.rol.toString() + " Arma: " + this.arma.toString();
 	}
 	
 	public String toStringWithStats() {
-		return this.toString() + " Vida: " + this.vida + " Vision: " + this.vision + " Pasos: " + this.pasos + " Ataque: " + this.arma.getDmg() +" Rango de ataque: " + this.arma.getRango() + " Buff: " + toStringBuff();
+		return this.toString() + " Vida: " + this.vida + " Vision: " + this.vision + " Pasos: " + this.pasos + " Ataque: " + this.arma.getDmg() +" Rango de ataque: " + this.arma.getRango() + " Posicion: [" + this.getPosicionX() + ", " + this.getPosicionY() + "]" + " Buff: " + toStringBuff();
 	}
 	
 	private String toStringBuff() {
@@ -266,7 +283,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	
 	//Getters y Setters
 	public int getVida() {
-		return vida;
+		return this.vida;
 	}
 
 	public void setVida(int vida) {
@@ -274,7 +291,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 
 	public int getPasos() {
-		return pasos;
+		return this.pasos;
 	}
 
 	public void setPasos(int pasos) {
@@ -282,7 +299,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 
 	public int getVision() {
-		return vision;
+		return this.vision;
 	}
 
 	public void setVision(int vision) {
@@ -312,7 +329,7 @@ public abstract class Personaje implements AccionesPersonaje {
 
 
 	public Arma getArma() {
-		return arma;
+		return this.arma;
 	}
 
 	public void setArma(Arma arma) {
@@ -320,7 +337,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 	
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
@@ -328,7 +345,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	}
 	
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {

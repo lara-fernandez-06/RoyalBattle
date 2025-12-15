@@ -43,13 +43,19 @@ public class Partida {
 	        while (jugadores.size() > 1) { // Rondas
 	            numRonda++;
 	            
-	            if((numRonda%2 == 0)&&numRonda<8) {
-	            	tablero.encogerTablero(numRonda);
+	            if(numRonda != 0) {
+		            if((numRonda%2 == 0)&&numRonda<8) {
+		            	tablero.encogerTablero(numRonda);
+		            }
 	            }
+	            
 	            //Log: inicio de ronda
 	            log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
 
 	            //Turnos de cada jugador
+	            this.imprimirJugadoresStats();;
+	            System.out.println();
+	            System.out.printf("MOVIMINETOS Y ATAQUES\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (jugadores.get(i).checkAlive()) {
 	                    jugadores.get(i).checkSurroundings(tablero);
@@ -57,6 +63,7 @@ public class Partida {
 	            }
 
 	            //Eliminamos jugadores muertos y logueamos
+	            System.out.printf("MUERTOS:\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (!jugadores.get(i).checkAlive()) {
 	                    log.log(LocalDateTime.now() + " | INFO | " + jugadores.get(i).getNombre() + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
@@ -67,11 +74,14 @@ public class Partida {
 	                }
 	            }
 	            
-    		    this.tablero.mostrarTablero();
+	            System.out.printf("VIVOS\n\n");
     		    System.out.println("Los siguientes personajes siguen vivos:");
     		    for(int i = 0; i < jugadores.size(); i++) {
     		    	System.out.println(jugadores.get(i).toStringWithStats());
     		    }
+    		    
+    		    System.out.printf("TABLERO\n\n");
+    		    this.tablero.mostrarTablero();
 	            
 	        }
 	        

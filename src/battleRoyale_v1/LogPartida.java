@@ -10,7 +10,7 @@ public class LogPartida {
 	
 	//constructor
     public LogPartida(String fichero) throws IOException {
-        pw = new PrintWriter(new FileWriter(fichero, true));
+        pw = new PrintWriter(new FileWriter(fichero));
     }
 	
     //ir poniendo mensajes en el fichero log
