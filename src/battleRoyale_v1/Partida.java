@@ -117,10 +117,8 @@ public class Partida {
 		
 		//Añadimos a jugadores el personaje creado por el usuario
 		nombreFichero = MenuActionPerformed.getnombreFichero();
-		
-		arrayNombreFichero = nombreFichero.toCharArray();
 		try {
-			if(nombreFichero == null || nombreFichero == "" || arrayNombreFichero[0] == ' ') {
+			if(nombreFichero == null || nombreFichero == "") {
 				leerFicheroPartida("datosOrigen.txt");
 			}else {
 				leerFicheroPartida(nombreFichero);
@@ -142,6 +140,13 @@ public class Partida {
 		String raza = PersonajeActionPerformed.getRaza();
 		String arma = PersonajeActionPerformed.getArma();
 		String nombre = PersonajeActionPerformed.getNombrePJ();
+		
+		if(raza == null) {
+			raza = "Caballero";
+		}
+		if(arma == null) {
+			arma = "Espada";
+		}
 		
 		System.out.println("RAZA: "+raza );
 		System.out.println("ARMA: "+arma );
