@@ -26,18 +26,13 @@ public class Partida {
 		Settings settings = new Settings();
 		SettingsActionPerformed SettingAP = new SettingsActionPerformed();
 		Menu_BR menu_BR = new Menu_BR(SettingsActionPerformed.getAncho() ,SettingsActionPerformed.getAlto());
-		//InicializarInterfaz
-	//	settings.settingsInicio();
-
-		//Inicializamos la partida
-	    //inicializarPartida();
 	    
-	    //LogPartida log = null;
+	    LogPartida log = null;
 
-	    //try {
+	    try {
 	        //Creación del log
-	        //log = new LogPartida("resultados.log");
-	        //log.log(LocalDateTime.now() + " | INFO | Empieza la partida. Jugadores iniciales: " + jugadores.size());
+	        log = new LogPartida("resultados.log");
+	        log.log(LocalDateTime.now() + " | INFO | Empieza la partida. Jugadores iniciales: " + jugadores.size());
 		    
 	        //Inicializamos el tablero
 	        tablero.inicializarTablero(this.jugadores);
@@ -57,7 +52,7 @@ public class Partida {
 	            }
 	            
 	            //Log: inicio de ronda
-	            //log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
+	            log.log(LocalDateTime.now() + " | INFO | Comienza la ronda " + numRonda);
 
 	            //Turnos de cada jugador
 	            
@@ -103,14 +98,14 @@ public class Partida {
 	        //Log: ganador
 	        if (jugadores.size() == 1) {
 	        	System.out.println("El ganador ha sido: " + jugadores.getFirst().toStringWithStats());
-	            //log.log(LocalDateTime.now() + " | INFO | GANADOR: " + jugadores.get(0).getNombre() + " [ID: " + jugadores.get(0).getId() + "]");
+	            log.log(LocalDateTime.now() + " | INFO | GANADOR: " + jugadores.get(0).getNombre() + " [ID: " + jugadores.get(0).getId() + "]");
 	        }
 
-	    /*} catch (IOException e) {
+	    } catch (IOException e) {
 	        e.printStackTrace();
 	    } finally {
 	       if (log != null) log.cerrar();
-	    }*/
+	    }
 	}
 
 
@@ -122,13 +117,11 @@ public class Partida {
 		
 		
 		
-		//jugadores.add(crearPersonajeUsuario());
 		//Añadimos a jugadores el personaje creado por el usuario
 		nombreFichero = MenuActionPerformed.getnombreFichero();
-		//nombreFichero = "alonso_Wawa";
 		
 		arrayNombreFichero = nombreFichero.toCharArray();
-		if(nombreFichero == "" || arrayNombreFichero[0] == ' ') {
+		if(nombreFichero == "" || arrayNombreFichero[0] == ' ' || nombreFichero == null) {
 			leerFicheroPartida("datosOrigen.txt");
 		}else {
 			leerFicheroPartida(nombreFichero);
@@ -160,64 +153,6 @@ public class Partida {
 			System.out.println(personajeE.getMessage());
 		}
 		
-		/*
-		Scanner escaner = new Scanner(System.in);
-		String rol;
-		boolean error = false;
-		
-		do {
-			System.out.println("Elige un personaje (Caballero, Ogro, Elfo, Mago, Ladrón): ");
-			rol = escaner.nextLine();
-			if(rol.equalsIgnoreCase("Caballero")) {
-				return new Caballero(escogerNombre(escaner), escogerArma(escaner));
-			}else if(rol.equalsIgnoreCase("Ogro")) {
-				return new Ogro(escogerNombre(escaner), escogerArma(escaner));
-			}else if(rol.equalsIgnoreCase("Elfo")) {
-				return new Elfo(escogerNombre(escaner), escogerArma(escaner));
-			}else if(rol.equalsIgnoreCase("Mago")) {
-				return new Mago(escogerNombre(escaner), escogerArma(escaner));
-			}else if(rol.equalsIgnoreCase("Ladrón") || rol.equalsIgnoreCase("Ladron")) {
-				return new Ladron(escogerNombre(escaner), escogerArma(escaner));
-			}else {
-				System.err.println("Error, no has escrito ninguno de los roles disponibles. Inténtalo de nuevo.");
-				error = true;
-			}
-		}while(error == true);
-		
-		return null;
-		*/
-	}
-	
-	private String escogerNombre(Scanner escaner) {
-		System.out.println("Escribe el nombre de tu personaje:");
-		return escaner.nextLine();
-	}
-	
-	private Arma escogerArma(Scanner escaner) {
-		//definimos las variables
-		String arma;
-		boolean error = false;
-		
-		do {
-			System.out.println("Escoge un arma(Espada, Maza, Arco, Báculo, Daga): ");
-			arma = escaner.nextLine();
-			if(arma.equalsIgnoreCase("Espada")) {
-				return new Espada();
-			}else if(arma.equalsIgnoreCase("Maza")) {
-				return new Maza();
-			}else if(arma.equalsIgnoreCase("Arco")) {
-				return new Arco();
-			}else if(arma.equalsIgnoreCase("Báculo") || arma.equalsIgnoreCase("Baculo")) {
-				return new Baculo();
-			}else if(arma.equalsIgnoreCase("Daga")) {
-				return new Daga();
-			}else {
-				System.err.println("Error, no has escrito ninguno de las armas disponibles. Inténtalo de nuevo.");
-				error = true;
-			}
-		}while(error == true);
-		
-		return null;
 	}
 	
 	
@@ -338,7 +273,7 @@ public class Partida {
 		Random random = new Random();
 		
 		//Mezclamos los jugadores
-		for(int i = 1; i < jugadores.size(); i++) {
+		for(int i = 0; i < jugadores.size(); i++) {
 			int num = random.nextInt(jugadores.size() - 1) + 1;
 			Personaje temp = jugadores.get(num);
 			jugadores.set(num, jugadores.get(i));

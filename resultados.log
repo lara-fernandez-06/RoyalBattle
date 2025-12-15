@@ -1,30 +1,9 @@
-2025-12-15T04:30:39.661430 | INFO | Empieza la partida. Jugadores iniciales: 26
-2025-12-15T04:30:39.667257 | INFO | Comienza la ronda 1
-2025-12-15T04:30:39.672706700 | INFO | Elfo1 [ID: 11] ha sido eliminado
-2025-12-15T04:30:39.672706700 | INFO | Ogro4 [ID: 9] ha sido eliminado
-2025-12-15T04:30:39.672706700 | INFO | Mago4 [ID: 19] ha sido eliminado
-2025-12-15T04:30:39.672706700 | INFO | Elfo3 [ID: 13] ha sido eliminado
-2025-12-15T04:30:39.672706700 | INFO | Ladrón5 [ID: 25] ha sido eliminado
-2025-12-15T04:30:39.672706700 | INFO | Elfo5 [ID: 15] ha sido eliminado
-2025-12-15T04:30:39.672706700 | INFO | Caballero4 [ID: 4] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Caballero2 [ID: 2] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Mago5 [ID: 20] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Ogro1 [ID: 6] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Mago3 [ID: 18] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Ogro3 [ID: 8] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Ogro5 [ID: 10] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Mago2 [ID: 17] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Caballero3 [ID: 3] ha sido eliminado
-2025-12-15T04:30:39.673765400 | INFO | Ladrón4 [ID: 24] ha sido eliminado
-2025-12-15T04:30:39.674788 | INFO | Comienza la ronda 2
-2025-12-15T04:30:39.675269800 | INFO | Mago1 [ID: 16] ha sido eliminado
-2025-12-15T04:30:39.675269800 | INFO | Caballero5 [ID: 5] ha sido eliminado
-2025-12-15T04:30:39.675269800 | INFO | Ogro2 [ID: 7] ha sido eliminado
-2025-12-15T04:30:39.675269800 | INFO | Caballero1 [ID: 1] ha sido eliminado
-2025-12-15T04:30:39.675269800 | INFO | Ladrón2 [ID: 22] ha sido eliminado
-2025-12-15T04:30:39.675269800 | INFO | Elfo4 [ID: 14] ha sido eliminado
-2025-12-15T04:30:39.675791900 | INFO | Comienza la ronda 3
-2025-12-15T04:30:39.675791900 | INFO | Legolas [ID: 0] ha sido eliminado
-2025-12-15T04:30:39.675791900 | INFO | Ladrón1 [ID: 21] ha sido eliminado
-2025-12-15T04:30:39.675791900 | INFO | Elfo2 [ID: 12] ha sido eliminado
-2025-12-15T04:30:39.676792 | INFO | GANADOR: Ladrón3 [ID: 23]
+2025-12-15T21:09:02.378735800 | INFO | Empieza la partida. Jugadores iniciales: 25
+2025-12-15T21:09:02.399202 | INFO | Comienza la ronda 1
+2025-12-15T21:09:02.431609700 | INFO | Comienza la ronda 2
+2025-12-15T21:09:02.434944300 | INFO | Comienza la ronda 3
+2025-12-15T21:09:02.439254300 | INFO | Comienza la ronda 4
+2025-12-15T21:09:02.442292100 | INFO | Comienza la ronda 5
+2025-12-15T21:09:02.443301700 | INFO | Comienza la ronda 6
+2025-12-15T21:09:02.444311100 | INFO | Comienza la ronda 7
+2025-12-15T21:09:02.445349100 | INFO | GANADOR: Elfo1 [ID: 10]
