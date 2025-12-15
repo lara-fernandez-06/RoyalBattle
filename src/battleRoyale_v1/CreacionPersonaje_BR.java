@@ -49,8 +49,11 @@ public class CreacionPersonaje_BR {
 //---IMAGEN FONDO---
 		    Imagenfondo imagenFondo = new Imagenfondo("fondo2.png");
 			imagenFondo.setLayout(new BorderLayout());
-			imagenFondo.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)		    
-		    
+			imagenFondo.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)		
+			
+			Imagenfondo imagenmesa = new Imagenfondo("mesa.jpeg");
+			imagenmesa.setLayout(new BorderLayout());
+			imagenmesa.setBorder(new EmptyBorder(20,15,5,15));//Para ponerle margen alrededor (Arriba, derecha, abajo, izquierda)			    
 //---CREACIÓN DE LAS INTERFAZ DE CREACIÓN DE PERSONAJE ---	
 			 //---TÍTULO---
 		    JLabel titulo = new JLabel(); 
@@ -247,9 +250,12 @@ public class CreacionPersonaje_BR {
 			//---IMAGEN FONDO---
 		    imagenFondo.add(posicionTitulo_Subtitulo,BorderLayout.NORTH);   
 		    imagenFondo.add(posicionCentral,BorderLayout.CENTER);   
-		    imagenFondo.add(posicionPiePagina,BorderLayout.SOUTH);   
+		    imagenFondo.add(posicionPiePagina,BorderLayout.SOUTH); 
+		    //---IMAGEN MESA---
+		    imagenmesa.add(imagenFondo);   
+		    
 			//--CONTENTPANE--
-			contentPane.add(imagenFondo, BorderLayout.CENTER);
+		    contentPane.add(imagenmesa, BorderLayout.CENTER);
 		    
 //---SE VE---	    
 	    jFrame.setVisible(true);  

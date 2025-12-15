@@ -20,7 +20,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class Settings {
-	
+	public static void main(String args[]) {
+		Settings.settingsInicio();
+	}
 	public static void settingsInicio() {	
 	//---INICIALIZAR JFRAME---
 			JFrame jFrame = new JFrame("RoyalBattle_Settings");
@@ -45,12 +47,6 @@ public class Settings {
 		    jFrame.setLocationRelativeTo(null); //Cerrar proceso al cerrar la ventana
 		    
 	//---CREACIÓN DE LAS OPCIONES DE CONFIGURACIÓN---  
-		    
-		 	//---AVISO---
-
-		    JOptionPane.showMessageDialog(null,"Se recomianda no tocar el tamaño del juego, ya que el resto de opciones no se han confiurado todavía de forma correcta");
-		   
-		    
 		    //---TÍTULO---
 		    JLabel titulo = new JLabel(); 
 		    titulo.setText("SETTINGS ROYALBATTLE");
@@ -177,6 +173,9 @@ public class Settings {
 		    SettingsActionPerformed settingsAlto = new SettingsActionPerformed(); //Como es una clase en una clase tengo primero que crear la clase principal
 		    SettingsActionPerformed.BoxAltoListener listenerAL = settingsAlto.new BoxAltoListener();
 		    tamVentanaAlto.addActionListener(listenerAL);
+		    
+		    //---AVISITO---
+		    JOptionPane.showMessageDialog(null,"Se recomienda no editar el ancho de pantalla para una mejor experiencia"); 
 		    
 	//---ADDS---
 		    //---TÍTULO Y SUBTÍTULO---
