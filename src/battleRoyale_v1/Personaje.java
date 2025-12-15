@@ -39,6 +39,7 @@ public abstract class Personaje implements AccionesPersonaje {
 	public void atacar(Personaje enemigo) {
 		if(enemigo != null) {
 			if(enemigo.getVida() > 0) {
+				//si tiene el buff o no
 				if(this.buff == true) {
 					System.out.println(this.id + " esta atacando a " + enemigo.id + " con este daño: " + arma.getDmg() * 2);
 					enemigo.quitarVida(arma.getDmg() * 2);
@@ -49,15 +50,15 @@ public abstract class Personaje implements AccionesPersonaje {
 					System.out.println("Enemigo "+enemigo.id+" después de ser atacado:" + enemigo.vida);
 				}
 				
-				//Comprobación si mi enemigo ha muerto
-				if(this.heSidoAtacado == true) {
-					if(enemigo.getVida() <= 0) {
+				//Comprobación si mi enemigo ha muerto (si me habia atacado previamente)
+				//CHG: esto ahora se hace aunque no hayas sido atacado de antes
+				if(enemigo.getVida() <= 0) {
 						this.heSidoAtacado = false; //El enemigo ha muerto
-						System.out.println("desactivado he sido atacado");
 						this.posicionEnemiga[0]=0;
 						this.posicionEnemiga[1]=0;
-					}
+					System.out.println(this.id +" ha matado a "+ enemigo.id);
 				}
+				
 			}else {
 				System.out.println(this.id + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN MUERTO EL CUAL ES: " + enemigo.id);
 			}
@@ -68,7 +69,7 @@ public abstract class Personaje implements AccionesPersonaje {
 
 	public void quitarVida(int dmg) {
 		this.vida -= dmg;
-		System.err.println(this.id + " ESTA MUERIENDO AAAAAA "+dmg);
+		System.out.println(this.id + " ESTA MUERIENDO AAAAAA "+dmg);
 	}
 
 	public boolean checkBuff() {
@@ -92,7 +93,7 @@ public abstract class Personaje implements AccionesPersonaje {
 				if((objetivo = checkLoot(tablero)) == null) { //si no hay loot
 					
 					objetivo = tablero.casillas[5][5]; //nos vamos al centro
-					this.moverEnemigo(objetivo, tablero); 
+					this.moverCentro(objetivo, tablero); 
 					System.out.println(this.id + " SE ESTA MOVIENDO HACIA EL CENTRO");
 					
 				}else { //hay loot y vamos hacia allí
@@ -106,25 +107,27 @@ public abstract class Personaje implements AccionesPersonaje {
 					
 				}
 			}else { //si se detecta un enemigo
-				System.out.println(objetivo.getPersonaje().getId()+ "VOY A ATCAR AL ENEMIGO QUE HE VISTO");
+							
+				System.out.println(objetivo.getPersonaje().getId()+ " VOY A ATACAR AL ENEMIGO QUE HE VISTO");
 				//miramos si está en rango de ataque
-				if(checkGolpear(tablero, objetivo.getPersonaje())) {
+				if(checkGolpear(tablero, objetivo.getPersonaje())) { //si se puede atacar
 					this.atacar(objetivo.getPersonaje());
 					//después de ser atacado, el enemigo se da cuenta
-					objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
+					objetivo.getPersonaje().posicionEnemiga[0] = this.posicion[0];
+					objetivo.getPersonaje().posicionEnemiga[1] = this.posicion[1];
 					objetivo.getPersonaje().heSidoAtacado = true;
-					System.out.println(objetivo.getPersonaje().getId()+ "ha sido atacado y lo sabe");
+					System.out.println(objetivo.getPersonaje().getId()+ " ha sido atacado y lo sabe");
 				}else { //si no tiene rango, se mueve hacia el enemigo
 					this.moverEnemigo(objetivo, tablero);
 					//como puede ser que aunque se haya movido no pueda atacar, volvemos a mirarlo
 					//si está en rango, golpea, si no, se acaba su turno
 					if(this.checkGolpear(tablero, objetivo.getPersonaje())){
 						this.atacar(objetivo.getPersonaje());
-						objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
+						objetivo.getPersonaje().posicionEnemiga[0] = this.posicion[0];
+						objetivo.getPersonaje().posicionEnemiga[1] = this.posicion[1];
 						objetivo.getPersonaje().heSidoAtacado = true;
-					}
-				}
-				
+					}//si no puede se acaba el turno
+				}	
 				
 					
 				
@@ -132,7 +135,7 @@ public abstract class Personaje implements AccionesPersonaje {
 			
 		}else { //he sido atacado
 			objetivo = tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]];
-			System.out.println(objetivo.getPersonaje().getId()+ "HE SIDO ATACADO Y VOY A POR MI ENEMIGO");
+			System.out.println(objetivo.getPersonaje().getId()+ " HE SIDO ATACADO Y VOY A POR MI ENEMIGO");
 			if(this.checkGolpear(tablero, objetivo.getPersonaje())) {
 				this.atacar(objetivo.getPersonaje());
 			}else {
@@ -207,13 +210,17 @@ public abstract class Personaje implements AccionesPersonaje {
 				//esta condicón no estoy segura todavía si vale para gestionar que el tablero se haya hecho más pequeño
 				if(tablero.casillas[i][j].getIsDestroyed() == false) {
 					if(tablero.casillas[i][j].getPersonaje() != this) {
-						if(tablero.casillas[i][j].getPersonaje() == enemigo) return true; //si le puede dar al enemigo del objetivo devulve true
+						if(tablero.casillas[i][j].getPersonaje() == enemigo) {
+							System.out.println("-------------------------------------------ENEMIGO ENCONTRADO--------------------------------------------");
+							return true; //si le puede dar al enemigo del objetivo devulve true
+						}
 					}
 				}
 				
 			}
 		}
 		
+		System.out.println("-------------------------------------------NO SABEMOS DONDE ESTA--------------------------------------------");
 		return false; //si no puede dar al personaje devuelve false
 	}
 	
@@ -227,8 +234,11 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		for(int i=0; i<this.pasos; i++) {	
 			if(!(this.posicion[0]==objetivoPosicion[0] && this.posicion[1]==objetivoPosicion[1])) {
-				this.moverPaso(objetivoPosicion);
-				if(this.id==0) tablero.mostrarTablero(); //TEMPORAL!!!!!!
+				int[] aux = mirarPaso(objetivoPosicion).getPosicion();
+				if(tablero.casillas[aux[0]][aux[1]].getPersonaje() == null  || tablero.casillas[aux[0]][aux[1]].getPersonaje().checkAlive()==false) {
+					System.out.println("***********************************HA PARADO PORQUE HAY ALGUIEN*****************************************************");
+					this.moverPaso(objetivoPosicion);
+				}
 			}
 		}
 		
@@ -246,9 +256,13 @@ public abstract class Personaje implements AccionesPersonaje {
 		tablero.casillas[this.posicion[0]][this.posicion[1]].setPersonaje(null);
 		
 		for(int i=0; i<this.pasos; i++) {
-			if(this.checkGolpear(tablero, objetivo.getPersonaje()) == false) {
-				this.moverPaso(objetivoPosicion);
-				if(this.id==0) tablero.mostrarTablero();//TEMPORAL!!!!!!!
+			if(this.checkGolpear(tablero, objetivo.getPersonaje()) == false) { //mira primero si ya está en rango para pegar al enemigo
+				//aunque está enfocado en un solo enemigo, si se encuentra con otro para
+				int[] aux = mirarPaso(objetivoPosicion).getPosicion();
+				if(tablero.casillas[aux[0]][aux[1]].getPersonaje() == null  || tablero.casillas[aux[0]][aux[1]].getPersonaje().checkAlive()==false) {
+					System.out.println("***********************************HA PARADO PORQUE HAY ALGUIEN*****************************************************");
+					this.moverPaso(objetivoPosicion);
+				}
 			}
 		}
 		
@@ -266,7 +280,12 @@ private void moverCentro(Casilla objetivo, Tablero tablero) {
 		
 		for(int i=0; i<this.pasos; i++) {	
 			if(!(this.posicion[0]==objetivoPosicion[0] && this.posicion[1]==objetivoPosicion[1])) {
-				if(this.mirarPaso(objetivoPosicion).getPersonaje() != null  || this.mirarPaso(objetivoPosicion).getPersonaje().checkAlive()==false) {
+				int[] aux = mirarPaso(objetivoPosicion).getPosicion();
+				if(tablero.casillas[aux[0]][aux[1]].getPersonaje() == null  || tablero.casillas[aux[0]][aux[1]].getPersonaje().checkAlive()==false) {
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////
+					if(this.mirarPaso(objetivoPosicion).getPersonaje() == null) System.out.println("------------------------------------------HA SIDO PORQUE ES NULL--------------------------------------------------");
+					else if(this.mirarPaso(objetivoPosicion).getPersonaje().checkAlive()==false) System.out.println("------------------------------------------HA SIDO PORQUE ESTA MUERTO--------------------------------------------------");
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////
 					this.moverPaso(objetivoPosicion);
 				}
 			}
@@ -289,31 +308,31 @@ private void moverCentro(Casilla objetivo, Tablero tablero) {
 		if(Math.abs(diferencia[0])>Math.abs(diferencia[1])) {
 			//mira el signo de diferencia y me mueve hacia la derecha o izquierda
 			if(diferencia[0]>0)
-				aux.setPosicionX(aux.getPosicionX()+ 1);
+				aux.setPosicionX(this.posicion[0]+ 1);
 			if(diferencia[0]<0)
-				aux.setPosicionX(aux.getPosicionX()-1);
+				aux.setPosicionX(this.posicion[0]-1);
 			
 		//si está mas lejos en la y que en la x -> se mueve en y
 		}else if(Math.abs(diferencia[1])>Math.abs(diferencia[0])){
 			//mira el signo de diferencia y se mueve arriba o abajo
 			if(diferencia[1]>0)
-				aux.setPosicionY(aux.getPosicionY()+ 1);
+				aux.setPosicionY(this.posicion[1]+ 1);
 			if(diferencia[1]<0)
-				aux.setPosicionY(aux.getPosicionY()-1);
+				aux.setPosicionY(this.posicion[1]-1);
 			
 		//si está a la misma distacia -> se mueve en diagonal
 		}else {
 			//se mueve en x
 			if(diferencia[0]>0)
-				aux.setPosicionX(aux.getPosicionX()+ 1);
+				aux.setPosicionX(this.posicion[0]+ 1);
 			if(diferencia[0]<0)
-				aux.setPosicionX(aux.getPosicionX()-1);
+				aux.setPosicionX(this.posicion[0]-1);
 			
 			//se mueve en y
 			if(diferencia[1]>0)
-				aux.setPosicionY(aux.getPosicionY()+ 1);
+				aux.setPosicionY(this.posicion[1]+ 1);
 			if(diferencia[1]<0)
-				aux.setPosicionY(aux.getPosicionY()-1);
+				aux.setPosicionY(this.posicion[1]-1);
 		}
 		
 		return aux;
