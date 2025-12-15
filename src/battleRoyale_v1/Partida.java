@@ -43,6 +43,8 @@ public class Partida {
 	        while (jugadores.size() > 1) { // Rondas
 	            numRonda++;
 	            
+	            System.out.println("----------RONDA "+numRonda+"----------");
+	            
 	            if(numRonda != 0) {
 		            if((numRonda%2 == 0)&&numRonda<10) {
 		            	tablero.encogerTablero(numRonda);
@@ -58,8 +60,11 @@ public class Partida {
 	            System.out.printf("MOVIMINETOS Y ATAQUES\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (jugadores.get(i).checkAlive()) {
+	                	System.out.println("---Turno de "+jugadores.get(i).getId());
+	                	System.out.println(jugadores.get(i).toStringWithStats());
 	                	jugadores.get(i).checkTormenta(tablero);
 	                    jugadores.get(i).checkSurroundings(tablero);
+	                	System.out.println(jugadores.get(i).toStringWithStats());
 	                }
 	            }
 
@@ -106,7 +111,7 @@ public class Partida {
 		jugadores.add(crearPersonajeUsuario());
 		leerFicheroPartida(nombreFichero);
 		imprimirJugadores();
-		barajar();
+		//barajar();
 		imprimirJugadoresStats();
 	}
 	

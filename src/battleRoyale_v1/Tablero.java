@@ -95,35 +95,37 @@ public class Tablero {
 	
 	public char letraPersonaje(Casilla casilla) {
 		Rol rol = casilla.getPersonaje().getRol();
-		if(rol == Rol.CABALLERO) {
+		switch(rol) {
+		case Rol.CABALLERO:
 			return 'C';
-		}else if(rol == Rol.OGRO) {
+		case Rol.OGRO:
 			return 'O';
-		}else if(rol == Rol.ELFO) {
+		case Rol.ELFO:
 			return 'E';
-		}else if(rol == Rol.MAGO) {
+		case Rol.MAGO:
 			return 'M';
-		}else if(rol == Rol.LADRON) {
+		case Rol.LADRON:
 			return 'L';
-		}else {
+		default:
 			return 'e';
-		}
+	}
 	}
 	
 	public char letraArma(Casilla casilla) {
 		TipoArma tipoArma = casilla.getPersonaje().getArma().getTipoArma();
-		if(tipoArma == TipoArma.ESPADA) {
-			return 'E';
-		}else if(tipoArma == TipoArma.MAZA) {
-			return 'M';
-		}else if(tipoArma == TipoArma.ARCO) {
-			return 'A';
-		}else if(tipoArma == TipoArma.BACULO) {
-			return 'B';
-		}else if(tipoArma == TipoArma.DAGA) {
-			return 'D';
-		}else {
-			return 'e';
+		switch(tipoArma) {
+			case TipoArma.ESPADA:
+				return 'E';
+			case TipoArma.MAZA:
+				return 'M';
+			case TipoArma.ARCO:
+				return 'A';
+			case TipoArma.BACULO:
+				return 'B';
+			case TipoArma.DAGA:
+				return 'D';
+			default:
+				return 'e';
 		}
 	}
 	/*

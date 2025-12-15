@@ -40,26 +40,29 @@ public abstract class Personaje implements AccionesPersonaje {
 		if(enemigo != null) {
 			if(enemigo.getVida() > 0) {
 				if(this.buff == true) {
-					System.out.println(this.toStringWithStats() + " esta atacando a " + enemigo.toStringWithStats() + " con este daño: " + arma.getDmg() * 2);
+					System.out.println(this.id + " esta atacando a " + enemigo.id + " con este daño: " + arma.getDmg() * 2);
 					enemigo.quitarVida(arma.getDmg() * 2);
-					System.out.println("Enemigo después de ser atacado:" + enemigo.toStringWithStats());
+					System.out.println("Enemigo "+enemigo.id+" después de ser atacado:" + enemigo.vida);
 				} else {
 					enemigo.quitarVida(arma.getDmg());
-					System.out.println(this.toString() + " esta atacando a " + enemigo.toString() + " con este daño: " + arma.getDmg());
-					System.out.println("Enemigo después de ser atacado:" + enemigo.toStringWithStats());
+					System.out.println(this.id + " esta atacando a " + enemigo.id + " con este daño: "  + arma.getDmg());
+					System.out.println("Enemigo "+enemigo.id+" después de ser atacado:" + enemigo.vida);
 				}
 				
 				//Comprobación si mi enemigo ha muerto
 				if(this.heSidoAtacado == true) {
 					if(enemigo.getVida() <= 0) {
 						this.heSidoAtacado = false; //El enemigo ha muerto
+						System.out.println("desactivado he sido atacado");
+						this.posicionEnemiga[0]=0;
+						this.posicionEnemiga[1]=0;
 					}
 				}
 			}else {
-				System.out.println(this.toString() + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN MUERTO EL CUAL ES: " + enemigo.toStringWithStats());
+				System.out.println(this.id + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN MUERTO EL CUAL ES: " + enemigo.id);
 			}
 		}else {
-			System.out.println(this.toString() + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN NULL");
+			System.out.println(this.id + " NO HA ATACADO PORQUE ESTA INTENTANDO ATACAR A UN NULL");
 		}
 	}
 
@@ -77,6 +80,11 @@ public abstract class Personaje implements AccionesPersonaje {
 		
 		Casilla objetivo; //Sea enemigo o loot
 		
+		//comprobar que el que me ha atacado sigue vivo
+		if(this.heSidoAtacado && (tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]].getPersonaje()==null || tablero.casillas[this.posicionEnemiga[0]][this.posicionEnemiga[1]].getPersonaje().checkAlive()==false) ) {
+			this.heSidoAtacado=false;
+		}
+		
 		if(this.heSidoAtacado == false) {
 			
 			if((objetivo = checkEnemies(tablero)) == null) { //si no hay enemigos
@@ -84,16 +92,16 @@ public abstract class Personaje implements AccionesPersonaje {
 				if((objetivo = checkLoot(tablero)) == null) { //si no hay loot
 					
 					objetivo = tablero.casillas[5][5]; //nos vamos al centro
-					this.moverLoot(objetivo, tablero); 
-					System.out.println(this.toStringWithStats() + " SE ESTA MOVIENDO HACIA EL CENTRO");
+					this.moverEnemigo(objetivo, tablero); 
+					System.out.println(this.id + " SE ESTA MOVIENDO HACIA EL CENTRO");
 					
 				}else { //hay loot y vamos hacia allí
-					System.out.println(this.toStringWithStats() + " SE ESTA MOVIENDO HACIA UN LOOT" + objetivo.getLoot().getTipo());
+					System.out.println(this.id + " SE ESTA MOVIENDO HACIA UN LOOT " + objetivo.getLoot().getTipo());
 					moverLoot(objetivo, tablero);
 					if(this.posicion[0] == objetivo.getPosicionX() && this.posicion[1] == objetivo.getPosicionY()) {
 						objetivo.getLoot().aplicar(this);
 						objetivo.setLoot(null);
-						System.out.println(this.toStringWithStats() + " HA COGIDO UN LOOT");
+						System.out.println(this.id + " HA COGIDO UN LOOT");
 					}
 					
 				}
@@ -104,6 +112,7 @@ public abstract class Personaje implements AccionesPersonaje {
 					//después de ser atacado, el enemigo se da cuenta
 					objetivo.getPersonaje().posicionEnemiga = tablero.casillas[this.posicion[0]][this.posicion[1]].getPosicion();
 					objetivo.getPersonaje().heSidoAtacado = true;
+					System.out.println(objetivo.getPersonaje().getId()+ "ha sido atacado y lo sabe");
 				}else { //si no tiene rango, se mueve hacia el enemigo
 					this.moverEnemigo(objetivo, tablero);
 					//como puede ser que aunque se haya movido no pueda atacar, volvemos a mirarlo
@@ -206,7 +215,6 @@ public abstract class Personaje implements AccionesPersonaje {
 		return false; //si no puede dar al personaje devuelve false
 	}
 	
-	//TODO: hay que pensar que le vamos a pasar en el caso que se mueva al centro
 	private void moverLoot(Casilla objetivo, Tablero tablero) {		
 		
 		int[] objetivoPosicion; //Una variable donde guardaremos la posicion del objetivo
