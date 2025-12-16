@@ -1,11 +1,35 @@
-2025-12-15T23:20:52.954911 | INFO | Empieza la partida. Jugadores iniciales: 26
-2025-12-15T23:20:52.966462500 | INFO | Comienza la ronda 1
-2025-12-15T23:20:53.014738100 | INFO | Comienza la ronda 2
-2025-12-15T23:20:53.031169600 | INFO | Comienza la ronda 3
-2025-12-15T23:20:53.041962900 | INFO | Comienza la ronda 4
-2025-12-15T23:20:53.047967900 | INFO | Comienza la ronda 5
-2025-12-15T23:20:53.054012100 | INFO | Comienza la ronda 6
-2025-12-15T23:20:53.059550900 | INFO | Comienza la ronda 7
-2025-12-15T23:20:53.062547600 | INFO | Comienza la ronda 8
-2025-12-15T23:20:53.067696200 | INFO | Comienza la ronda 9
-2025-12-15T23:20:53.073231700 | INFO | GANADOR: Elfo4 [ID: 13]
+2025-12-16T16:08:10.978928800 | INFO | Empieza la partida. Jugadores iniciales: 26
+2025-12-16T16:08:10.986098500 | INFO | Comienza la ronda 1
+2025-12-16T16:08:11.000682300 | INFO | Mago2 [ID: 16] ha sido eliminado
+2025-12-16T16:08:11.007197800 | INFO | Ladrón5 [ID: 24] ha sido eliminado
+2025-12-16T16:08:11.007197800 | INFO | Elfo4 [ID: 13] ha sido eliminado
+2025-12-16T16:08:11.007197800 | INFO | Mago1 [ID: 15] ha sido eliminado
+2025-12-16T16:08:11.008197800 | INFO | Caballero5 [ID: 4] ha sido eliminado
+2025-12-16T16:08:11.008197800 | INFO | Ladrón4 [ID: 23] ha sido eliminado
+2025-12-16T16:08:11.008197800 | INFO | Ladrón1 [ID: 20] ha sido eliminado
+2025-12-16T16:08:11.008197800 | INFO | Comienza la ronda 2
+2025-12-16T16:08:11.010720600 | INFO | Elfo5 [ID: 14] ha sido eliminado
+2025-12-16T16:08:11.010720600 | INFO | Mago4 [ID: 18] ha sido eliminado
+2025-12-16T16:08:11.010720600 | INFO | Caballero4 [ID: 3] ha sido eliminado
+2025-12-16T16:08:11.010720600 | INFO | Mago3 [ID: 17] ha sido eliminado
+2025-12-16T16:08:11.011720100 | INFO | Comienza la ronda 3
+2025-12-16T16:08:11.013720900 | INFO | Ladrón3 [ID: 22] ha sido eliminado
+2025-12-16T16:08:11.013720900 | INFO | Mago5 [ID: 19] ha sido eliminado
+2025-12-16T16:08:11.013720900 | INFO | Ogro4 [ID: 8] ha sido eliminado
+2025-12-16T16:08:11.014720500 | INFO | Comienza la ronda 4
+2025-12-16T16:08:11.015720800 | INFO | Ladrón2 [ID: 21] ha sido eliminado
+2025-12-16T16:08:11.015720800 | INFO | Caballero3 [ID: 2] ha sido eliminado
+2025-12-16T16:08:11.015720800 | INFO | Comienza la ronda 5
+2025-12-16T16:08:11.017720500 | INFO | Ogro3 [ID: 7] ha sido eliminado
+2025-12-16T16:08:11.017720500 | INFO | Elfo1 [ID: 10] ha sido eliminado
+2025-12-16T16:08:11.017720500 | INFO | Ogro2 [ID: 6] ha sido eliminado
+2025-12-16T16:08:11.017720500 | INFO | Elfo2 [ID: 11] ha sido eliminado
+2025-12-16T16:08:11.017720500 | INFO | Comienza la ronda 6
+2025-12-16T16:08:11.018719600 | INFO | hola [ID: 25] ha sido eliminado
+2025-12-16T16:08:11.018719600 | INFO | Caballero2 [ID: 1] ha sido eliminado
+2025-12-16T16:08:11.019719700 | INFO | Comienza la ronda 7
+2025-12-16T16:08:11.020862800 | INFO | Ogro5 [ID: 9] ha sido eliminado
+2025-12-16T16:08:11.020862800 | INFO | Comienza la ronda 8
+2025-12-16T16:08:11.020862800 | INFO | Ogro1 [ID: 5] ha sido eliminado
+2025-12-16T16:08:11.021861300 | INFO | Elfo3 [ID: 12] ha sido eliminado
+2025-12-16T16:08:11.021861300 | INFO | GANADOR: Caballero1 [ID: 0]

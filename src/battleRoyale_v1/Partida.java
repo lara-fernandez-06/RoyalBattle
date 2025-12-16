@@ -73,7 +73,7 @@ public class Partida {
 	            System.out.printf("MUERTOS:\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (!jugadores.get(i).checkAlive()) {
-	                    //log.log(LocalDateTime.now() + " | INFO | " + jugadores.get(i).getNombre() + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
+	                    log.log(LocalDateTime.now() + " | INFO | " + jugadores.get(i).getNombre() + " [ID: " + jugadores.get(i).getId() + "] ha sido eliminado");
 	                    System.out.println("Este personaje ha muerto: " + jugadores.get(i).toString());
 	                    tablero.casillas[jugadores.get(i).getPosicionX()][jugadores.get(i).getPosicionY()].setPersonaje(null);
 	                    jugadores.remove(i); //Eliminamos muerto del arraylist
