@@ -1,8 +1,8 @@
 package battleRoyale_v1;
 
-public class Yunke extends Loot {
+public class Yunque extends Loot {
 
-	public Yunke(String nombre, TipoLoot tipo) {
+	public Yunque(String nombre, TipoLoot tipo) {
 		super(nombre, tipo);
 		// TODO Auto-generated constructor stub
 	}

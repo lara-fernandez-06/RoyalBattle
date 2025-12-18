@@ -14,11 +14,8 @@ public abstract class Personaje implements AccionesPersonaje {
 	private int[] posicionEnemiga;
 	private boolean heSidoAtacado;
 	private static int counter;	
-	private int[] posicion; //cambio de la matriz de ints a un array que va a ser de dos, el [0] para la x y el [1] para la y
-	//Lara los getters y setters te los he puesto abajo con el resto
+	private int[] posicion; //cambio de la matriz de ints a un array que va a ser de dos, el [0] para la x y el [1] para la y	
 	
-	
-	//Falta gestionar el buff
 	//Constructor
 	public Personaje(Rol rol, String nombre, int vida, int pasos, int vision, Arma arma) {
 		this.id = counter;
@@ -419,15 +416,15 @@ private void moverCentro(Casilla objetivo, Tablero tablero) {
 		return this.posicion;
 	}
 	
-	public int getPosicionX() { //Setter
+	public int getPosicionX() {
 		return this.posicion[0];
 	}
 	
-	public int getPosicionY() { //Setters
+	public int getPosicionY() {
 		return this.posicion[1];
 	}
 	
-	public Rol getRol() { //Setters
+	public Rol getRol() {
 		return this.rol;
 	}
 

@@ -40,7 +40,7 @@ public class Partida {
 
 	        //LÓGICA DE PARTIDA (RONDAS Y MUERTES)
 	        numRonda = 0;
-	        while (jugadores.size() > 1) { // Rondas
+	        while (jugadores.size() > 1 && numRonda<25) { // Rondas
 	            numRonda++;
 	            
 	            System.out.println("----------RONDA "+numRonda+"----------");
@@ -56,14 +56,16 @@ public class Partida {
 
 	            //Turnos de cada jugador
 	            System.out.println();
-	            System.out.printf("MOVIMINETOS Y ATAQUES\n\n");
+	            System.out.printf("MOVIMIENTOS Y ATAQUES\n\n");
 	            for (int i = 0; i < jugadores.size(); i++) {
 	                if (jugadores.get(i).checkAlive()) {
 	                	System.out.println("-----------Turno de "+jugadores.get(i).getId());
 	                	tablero.casillas[this.jugadores.get(i).getPosicionX()][this.jugadores.get(i).getPosicionY()].setPersonaje(jugadores.get(i));
 	                	System.out.println("Principio del turno: "+jugadores.get(i).toStringWithStats());
 	                	jugadores.get(i).checkTormenta(tablero);
-	                    jugadores.get(i).checkSurroundings(tablero);
+	                	if(jugadores.get(i).checkAlive()) {
+	                		jugadores.get(i).checkSurroundings(tablero);
+	                	}	                    
 	                	System.out.println("Final del turno: "+jugadores.get(i).toStringWithStats());
 	                }
 	            }
@@ -98,6 +100,18 @@ public class Partida {
 	        	System.out.println("El ganador ha sido: " + jugadores.getFirst().toStringWithStats());
 	            log.log(LocalDateTime.now() + " | INFO | GANADOR: " + jugadores.get(0).getNombre() + " [ID: " + jugadores.get(0).getId() + "]");
 	        }
+	        if(jugadores.size()>1) {
+	        	System.out.println("Ha habido un empate!! Los ganadores son: ");
+	        	log.log(LocalDateTime.now() +  " | INFO | EMPATE, LOS GANADORES SON: ");
+	        	for(int i = 0; i < jugadores.size(); i++) {
+    		    	System.out.println(jugadores.get(i).toStringWithStats());
+    	            log.log(LocalDateTime.now() + " | INFO | GANADOR (EMPATE): " + jugadores.get(i).getNombre() + " [ID: " + jugadores.get(i).getId() + "]");
+    		    }
+	        }
+	        if(jugadores.size()<1) {
+	        	System.out.println("Todos los personajes perecieron en el campo de batalla. No hay ganador");
+	        	log.log(LocalDateTime.now() + " | INFO | TODOS LOS JUGADORES PERECIERON EN EL CAMPO DE BATALLA. ");
+	        }
 
 	    } catch (IOException e) {
 	        e.printStackTrace();
@@ -111,20 +125,17 @@ public class Partida {
 		//definimos las variables
 		String nombreFichero;
 		char [] arrayNombreFichero;
-		
-		
-		
-		
+				
 		//Añadimos a jugadores el personaje creado por el usuario
 		nombreFichero = MenuActionPerformed.getnombreFichero();
 		try {
-			if(nombreFichero == null || nombreFichero == "") {
+			if(nombreFichero == null || nombreFichero.equals("")) {
 				leerFicheroPartida("datosOrigen.txt");
 			}else {
 				leerFicheroPartida(nombreFichero);
 			}
 		}catch(Exception e) {
-			nombreFichero="datosOrigen.txt";
+			leerFicheroPartida("datosOrigen.txt");
 		}
 		crearPersonajeUsuario();
 		imprimirJugadores();

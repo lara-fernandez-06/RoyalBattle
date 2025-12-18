@@ -5,8 +5,7 @@ import java.util.Random;
 
 public class Tablero {
 
-	private final int LADOTABLERO;
-	//private ArrayList<Personaje> jugadores; //para que tenemos el arrayList de jugadores aqui? 
+	private final int LADOTABLERO; 
 	Casilla[][] casillas;
 	
 	Random rd = new Random();
@@ -67,7 +66,7 @@ public class Tablero {
 	    switch (tipo) {
 		    case 0: return new PocionVida("Poción de vida", TipoLoot.VIDA);
 	        case 1: return new Lentes("Lentes graduadas", TipoLoot.VISION);
-	        case 2: return new Yunke("Yunke portátil", TipoLoot.DMG);
+	        case 2: return new Yunque("Yunke portátil", TipoLoot.DMG);
 	        case 3: return new Amuleto("Amuleto de alcance", TipoLoot.RANGO);
 	        case 4: return new Botas("Botas de senderismo", TipoLoot.STAMINA);
 	        default: return null;
